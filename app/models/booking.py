@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from enum import Enum
 from typing import List, Optional
 
@@ -7,17 +7,16 @@ from sqlmodel import Field, Relationship, SQLModel
 from app.models.room import Room
 
 class StatusBooking(str, Enum):
-    RESERVED = 'reserved'
     CANCELED = 'canceled'
     CONFIRMED = 'confirmed'  
 
 
 class Booking(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)    
-    check_in: datetime
-    check_out: datetime    
+    check_in: date   # solo la fecha
+    check_out: date  # solo la fecha    
     user_id: int = Field(foreign_key="user.id", index=True)
-    status: StatusBooking = Field(default=StatusBooking.RESERVED)  
+    status: StatusBooking = Field(default=StatusBooking.CONFIRMED)  
     rooms: List["Room"] = Relationship(back_populates="bookings", link_model=BookingRoom)
 
 
@@ -27,10 +26,10 @@ class BookingRoom(SQLModel, table=True):
 
 
 class BookingCreate(SQLModel):     
-    check_in: datetime
-    check_out: datetime    
+    check_in: date
+    check_out: date  
     user_id: int
-    status: StatusBooking = StatusBooking.RESERVED
+    status: StatusBooking = StatusBooking.CONFIRMED
 
 
 class BookingUpdate(SQLModel):    
@@ -39,8 +38,8 @@ class BookingUpdate(SQLModel):
 
 class BookingResponse(SQLModel):
     id: int    
-    check_in: datetime
-    check_out: datetime    
+    check_in: date
+    check_out: date   
     user_id: int
     status: StatusBooking
     model_config = {"from_attributes": True}
