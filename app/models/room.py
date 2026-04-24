@@ -1,7 +1,9 @@
 from enum import Enum
-from typing import Optional
+from typing import List, Optional
 
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
+
+from app.models.booking import Booking
 
 class TypeRoom(str, Enum):
     STANDARD = 'standard'
@@ -23,6 +25,12 @@ class Room(SQLModel, table=True):
     price: float
     type_room: TypeRoom = Field(default=TypeRoom.STANDARD)
     status: StatusRoom = Field(default=StatusRoom.AVAILABLE)
+    
+    # Relación muchos a muchos
+    bookings: List["Booking"] = Relationship(
+        back_populates="rooms", 
+        link_model="BookingRoom"
+    )
 
 
 class RoomCreate(SQLModel):
