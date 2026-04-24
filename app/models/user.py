@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
@@ -11,10 +11,10 @@ class UserStatus(str, Enum):
 
 
 class Role(str, Enum):
-    CLIENTE = 'cliente'
-    RECEPCIONISTA = 'recepcionista'
-    SUPERVISOR = 'supervisor'
-    GERENTE = 'gerente'
+    GUEST = 'guest'               # Cliente/huésped
+    RECEPTIONIST = 'receptionist' # Recepcionista
+    SUPERVISOR = 'supervisor'     # Supervisor de limpieza/operaciones
+    MANAGER = 'manager'           # Gerente
 
 
 class User(SQLModel, table=True):
@@ -22,9 +22,9 @@ class User(SQLModel, table=True):
     email: str = Field(index=True, unique=True)
     full_name: str
     hashed_password: str
-    role: Role = Field(default=Role.CLIENTE)
+    role: Role = Field(default=Role.GUEST)
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(datetime.timezone.utc),
+        default_factory=lambda: datetime.now(timezone.utc), 
         nullable=False
     )
     status: UserStatus = Field(default=UserStatus.ACTIVE)
@@ -34,7 +34,7 @@ class UserCreate(SQLModel):
     email: str
     full_name: str
     password: str
-    role: Role = Role.CLIENTE
+    role: Role = Role.GUEST
     status: UserStatus = UserStatus.ACTIVE
 
 
