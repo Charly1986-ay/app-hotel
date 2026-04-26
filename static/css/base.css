@@ -1,0 +1,7 @@
+* {    
+    text-decoration: none; /* quita el subrayado */
+}
+
+ul, ol {
+    list-style: none;  /* quita las viñetas o números */    
+}

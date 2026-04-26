@@ -34,6 +34,7 @@ __pycache__/
 app/media/
 uploads/
 static/uploads/
+static/img/
 
 # -----------------------------
 # Logs
