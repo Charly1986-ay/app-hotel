@@ -1,9 +1,9 @@
-from sqlmodel import select
+from sqlmodel import select, Session
 
 from app.models.user import User
 
 class UserRepository:
-    def __init__(self, db):
+    def __init__(self, db: Session):
         self.db=db
 
     def get(self, user_id: int) -> User | None:

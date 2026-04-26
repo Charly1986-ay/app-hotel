@@ -22,7 +22,7 @@ class User(SQLModel, table=True):
     email: str = Field(index=True, unique=True)
     full_name: str
     hashed_password: str
-    role: Role = Field(default=Role.GUEST)
+    role: Role = Field(default=Role.CLIENT)
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), 
         nullable=False
@@ -34,7 +34,7 @@ class UserCreate(SQLModel):
     email: str
     full_name: str
     password: str
-    role: Role = Role.GUEST
+    role: Role = Role.CLIENT
     status: UserStatus = UserStatus.ACTIVE
 
 

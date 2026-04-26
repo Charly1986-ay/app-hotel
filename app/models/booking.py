@@ -18,8 +18,8 @@ class BookingRoom(SQLModel, table=True):
 
 class Booking(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)    
-    check_in: date   # solo la fecha
-    check_out: date  # solo la fecha    
+    check_in: date   # fecha ingreso
+    check_out: date  # fecha de salida    
     user_id: int = Field(foreign_key="user.id", index=True)
     status: StatusBooking = Field(default=StatusBooking.CONFIRMED)  
     rooms: List["Room"] = Relationship(back_populates="bookings", link_model=BookingRoom)
