@@ -11,7 +11,7 @@ class UserStatus(str, Enum):
 
 
 class Role(str, Enum):
-    GUEST = 'guest'               # Cliente/huésped
+    CLIENT = 'client'             # Cliente/huésped
     RECEPTIONIST = 'receptionist' # Recepcionista
     SUPERVISOR = 'supervisor'     # Supervisor de limpieza/operaciones
     MANAGER = 'manager'           # Gerente
