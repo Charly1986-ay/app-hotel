@@ -1,9 +1,13 @@
 from enum import Enum
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlmodel import Field, Relationship, SQLModel
 
-from app.models.booking import Booking
+import app.models.booking as booking_mod
+
+# 2. Importamos solo para el editor de código
+if TYPE_CHECKING:
+    from app.models.booking import Booking
 
 class TypeRoom(str, Enum):
     STANDARD = 'standard'
@@ -18,6 +22,8 @@ class StatusRoom(str, Enum):
 
 
 class Room(SQLModel, table=True):
+    __tablename__ = "room"
+    __table_args__ = {"extend_existing": True}
     id: Optional[int] = Field(default=None, primary_key=True)
     # ge → mínimo permitido (inclusive), le → máximo permitido (inclusive)
     bed_count: int = Field(default=1, ge=1, le=3) # cantidad de camas
@@ -29,7 +35,7 @@ class Room(SQLModel, table=True):
     # Relación muchos a muchos
     bookings: List["Booking"] = Relationship(
         back_populates="rooms", 
-        link_model="BookingRoom"
+        link_model=booking_mod.BookingRoom
     )
 
 
