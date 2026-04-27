@@ -28,7 +28,7 @@ class Room(SQLModel, table=True):
     # ge → mínimo permitido (inclusive), le → máximo permitido (inclusive)
     bed_count: int = Field(default=1, ge=1, le=3) # cantidad de camas
     max_capacity: int = Field(default=1, ge=1, le=4) # capacidad maxima
-    price: float
+    Decimal = Field(default=0, max_digits=10, decimal_places=2)
     type_room: TypeRoom = Field(default=TypeRoom.STANDARD)
     status: StatusRoom = Field(default=StatusRoom.AVAILABLE)
     

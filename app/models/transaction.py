@@ -19,7 +19,7 @@ class Transaction(SQLModel, table=True):
     __table_args__ = {"extend_existing": True}
     id: Optional[int] = Field(default=None, primary_key=True)
     booking_id: int = Field(foreign_key="booking.id", unique=True)
-    amount: Decimal
+    amount: Decimal = Field(default=0, max_digits=10, decimal_places=2)
     status: TransactionStatus = Field(default=TransactionStatus.PENDING)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
     
