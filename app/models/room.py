@@ -30,6 +30,7 @@ class Room(SQLModel, table=True):
     bed_count: int = Field(default=1, ge=1, le=3) # cantidad de camas
     max_capacity: int = Field(default=1, ge=1, le=4) # capacidad maxima
     price: Decimal = Field(default=0, max_digits=10, decimal_places=2)
+    image: str = Field(default=None, min_length=1, max_length=150)
     type_room: TypeRoom = Field(default=TypeRoom.STANDARD)
     status: StatusRoom = Field(default=StatusRoom.AVAILABLE)
     
@@ -44,6 +45,7 @@ class RoomCreate(SQLModel):
     bed_count: int
     max_capacity: int
     price: float
+    image: str
     type_room: TypeRoom = TypeRoom.STANDARD
     status: StatusRoom = StatusRoom.AVAILABLE
 
@@ -61,6 +63,7 @@ class RoomResponse(SQLModel):
     bed_count: int
     max_capacity: int
     price: float
+    image: str
     type_room: TypeRoom
     status: StatusRoom
     model_config = {"from_attributes": True}
