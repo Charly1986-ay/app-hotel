@@ -44,7 +44,7 @@ class Room(SQLModel, table=True):
 class RoomCreate(SQLModel):
     bed_count: int
     max_capacity: int
-    price: float
+    price: Decimal
     image: str
     type_room: TypeRoom = TypeRoom.STANDARD
     status: StatusRoom = StatusRoom.AVAILABLE
@@ -53,7 +53,7 @@ class RoomCreate(SQLModel):
 class RoomUpdate(SQLModel):
     bed_count: Optional[int]
     max_capacity: Optional[int]
-    price: Optional[float]
+    price: Optional[Decimal]
     type_room: Optional[TypeRoom]
     status: Optional[StatusRoom]
 
@@ -62,7 +62,7 @@ class RoomResponse(SQLModel):
     id: int
     bed_count: int
     max_capacity: int
-    price: float
+    price: Decimal
     image: str
     type_room: TypeRoom
     status: StatusRoom

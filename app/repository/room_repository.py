@@ -11,6 +11,10 @@ class RoomRepository:
         return self.db.get(Room, room_id)
     
     
+    def get_all(self) -> list[Room] | None:
+        return self.db.exec(select(Room)).all()
+    
+    
     def get_by_type_room(self, room_type: TypeRoom) -> Room | None:
         return self.db.exec(
             select(Room).where(Room.type_room == room_type)).all()
