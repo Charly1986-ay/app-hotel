@@ -4,17 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome Hotel Triple Frontera</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='img/hotel.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/fonts.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/base.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='img/hotel.ico') }}">    
+    <link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}">
     {% block css %}{% endblock %}
 </head>
 <body>
+    <header>
+        <ul class="nav">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Crear cuenta</a></li>
+            <li><a href="#">Login</a></li>            
+        </ul>
+    </header>
     <!-- Contenido -->
-    <div class="container">
+    <section class="container">
         {% block content %}{% endblock %}
-    </div>
+    </section>
 
+    <aside></aside>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Marca -->
+            <div class="footer-brand">
+                <h3>Hotel Triple Frontera</h3>
+                <p>El hotel numero uno del Litoral</p>
+            </div>
+
+            <!-- Enlaces principales -->
+            <ul class="footer-links">
+                <li><a href="#">Inicio</a></li>            
+                <li><a href="#">Acerca de</a></li>            
+            </ul>
+
+            <!-- Redes sociales -->
+            <ul class="footer-socials">
+                <li><a href="#" aria-label="Facebook">📘 Facebook</a></li>
+                <li><a href="#" aria-label="Twitter">🐦Twitter</a></li>
+                <li><a href="#" aria-label="Instagram">📸 Instagram</a></li>
+                <li><a href="#" aria-label="LinkedIn">💼 LinkedIn</a></li>
+            </ul>
+
+            <!-- Información -->
+            <div class="footer-info">
+                <h3>Contacto</h3>            
+                <p>info@hoteltf.com</p>
+                <p>Av. Costanera 1205 - Corrientes, Corrientes Argentina</p>
+                <p><span>2026</span>. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
     <!-- JS -->    
     {% block script %}{% endblock %}
 </body>
