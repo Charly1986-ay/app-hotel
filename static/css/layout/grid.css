@@ -1,0 +1,29 @@
+/* layout.css */
+
+/* 1. Complementamos el reset para habilitar el modo "elástico" */
+html, body {
+    height: 100%; /* El reset ya quitó el margin/padding, aquí damos la altura */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el cuerpo ocupe toda la ventana */
+    /* --- AQUI AGREGAMOS EL COLOR --- */
+    background-color: var(--bg-main);
+}
+
+/* 2. Tu contenedor principal */
+.content-container {
+    flex: 1 0 auto; /* ESTA es la línea que empuja el footer al fondo */
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-left: 4%;
+    padding-right: 4%;
+    width: 100%;    
+}
+
+/* 3. El footer se queda abajo */
+.footer {
+    flex-shrink: 0; /* Evita que el footer se achique si el contenido crece mucho */
+}

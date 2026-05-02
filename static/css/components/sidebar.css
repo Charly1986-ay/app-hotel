@@ -1,0 +1,44 @@
+/* --- COLUMNA LATERAL (BUSCADOR) --- */
+.sidebar {
+    flex: 0 0 35%;
+    padding: 35px;
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--input-border);
+    border-radius: 20px;
+    position: sticky;
+    top: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: var(--text-title);
+    font-weight: 700;
+}
+
+.hotel-policies {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.hotel-policies strong { color: var(--text-title); }
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (max-width: 1024px) { .sidebar { flex-basis: 40%; } }
+
+@media (max-width: 768px) {
+    .sidebar {
+        flex: 0 0 100%;
+        width: 100%;
+        position: static;
+        order: -1;
+        margin-bottom: 30px;
+    }
+}

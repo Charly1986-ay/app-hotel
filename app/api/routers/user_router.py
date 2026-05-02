@@ -5,10 +5,9 @@ from app.core.jinja import templates
 
 router = APIRouter()
 
-@router.get('/', name='index')
+@router.get('', name='account_user')
 def get_index(request: Request):
     return templates.TemplateResponse(
         request=request, 
-        name='index.html'
-        # context={"id": id} => aca va los parametros
+        name='register.html'        
     )

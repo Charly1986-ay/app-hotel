@@ -1,0 +1,66 @@
+/* --- FOOTER LAYOUT --- */
+.footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 60px;
+    border: 2px solid var(--footer-accent); /* Línea dorada superior */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- LISTAS DE ENLACES Y SOCIALES --- */
+.footer-links, 
+.footer-socials {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.footer-links li, 
+.footer-socials li {
+    margin: 0 15px;
+}
+
+.footer-links a {
+    color: var(--footer-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--footer-accent); /* El enlace brilla en dorado */
+}
+
+/* --- ICONOS SOCIALES --- */
+.footer-socials a {
+    color: var(--footer-accent); /* Iconos directamente en dorado */
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.footer-socials a:hover {
+    transform: translateY(-3px);
+    color: var(--bg-pure); /* Blanco puro al hover para destacar */
+}
+
+/* --- TEXTO INFERIOR --- */
+.footer p {
+    font-size: 0.8rem;
+    color: var(--footer-muted);
+    margin-top: 20px;
+    border-top: 1px solid rgba(249, 247, 242, 0.1);
+    padding-top: 20px;
+    display: inline-block;
+}

@@ -1,0 +1,38 @@
+/* 1. ESTILO GLOBAL PARA TODOS LOS BOTONES */
+.btn {
+    /* Colores base para todos */
+    background-color: var(--btn-bg); 
+    color: var(--btn-text);                 
+    
+    /* Estructura común */
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    border: 2px solid transparent; /* Evita que el botón salte al aparecer un borde */
+}
+
+.btn:hover {
+    background-color: var(--btn-hover-bg);
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* 2. EL MODIFICADOR PRIMARIO (DORADO) */
+.btn-primary {
+    /* Sobrescribe el color de letra y añade el borde */
+    color: var(--btn-primary-text); 
+    border-color: var(--btn-primary-border);
+}
+
+/* Opcional: Si quieres que al pasar el mouse el primary haga algo distinto */
+.btn-primary:hover {
+    color: var(--btn-primary-text-hover); /* Cambia a blanco al flotar para que resalte más */
+}

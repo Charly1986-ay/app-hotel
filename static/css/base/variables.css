@@ -1,0 +1,46 @@
+:root {
+    /* --- CAPA 0: FONDOS BASE --- */
+    --bg-main: #F9F7F2;          /* Marfil base de la web */
+    --bg-pure: #FFFFFF;          /* Blanco absoluto para tarjetas y posts */
+    --bg-sidebar: #F2EFE9;       /* Un marfil sutilmente más oscuro para contraste */
+
+    /* --- CAPA 1: COLORES DE MARCA --- */
+    --primary-color: #701705;    /* Vino Institucional */
+    --primary-hover: rgba(112, 23, 5, 0.85); 
+    --secondary-color: #b8921f;  /* Dorado/Ocre para acentos */
+
+    /* --- CAPA 2: COMPONENTES DE NAVEGACIÓN --- */
+    --nav-bg: var(--primary-color);
+    --nav-border: var(--secondary-color);
+    --nav-text: var(--bg-main);
+    --logo-text: var(--bg-main);
+    --toggle-menu-text: var(--bg-main);
+
+    /* --- CAPA 3: BOTONES --- */
+    --btn-bg: var(--primary-color);    
+    --btn-text: var(--bg-main);
+    --btn-hover-bg: var(--primary-hover);
+    
+    /* Botón Secundario/Bordeado */
+    --btn-primary-border: var(--secondary-color);    
+    --btn-primary-text: var(--secondary-color);  
+    --btn-primary-text-hover: var(--bg-pure);    
+
+    /* --- CAPA 4: TIPOGRAFÍA --- */
+    --text-title: #2A241F;       /* Café oscuro elegante */
+    --text-body: #4A4540;        /* Gris cálido para lectura */
+    --text-muted: #857F7A;       /* Textos secundarios */
+    
+    /* --- CAPA 5: FORMULARIOS --- */
+    --input-text: var(--text-body);
+    --input-label: var(--text-title);
+    --input-placeholder: #A6A09B;
+    --input-border: rgba(112, 23, 5, 0.2); 
+    --input-bg: var(--bg-pure);  /* Los inputs deben ser blancos para resaltar */
+
+    /* --- CAPA 6: FOOTER --- */
+    --footer-bg: var(--primary-color);   /* Fondo Vino para cerrar con fuerza */
+    --footer-text: var(--bg-main);       /* Texto Marfil para legibilidad */
+    --footer-accent: var(--secondary-color); /* Acentos en Dorado */
+    --footer-muted: var(--text-muted); /* Marfil con transparencia para copyright */
+}

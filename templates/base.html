@@ -9,31 +9,42 @@
     {% block css %}{% endblock %}
 </head>
 <body>
-    <header>
-        <ul class="nav">
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Crear cuenta</a></li>
-            <li><a href="#">Login</a></li>            
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="tu-logo.png" alt="Logo Hotel">
+            <!-- O puedes usar texto si no tienes imagen: <span>Mi Hotel</span> -->
+        </a>
+
+        <!-- El botón debe tener estos 3 spans -->
+        <button class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav" id="nav-list">
+            <li><a href="{{ url_for('index') }}">Inicio</a></li>
+            <li><a href="{{ url_for('account_user') }}">Crear cuenta</a></li>
+            <li><a href="{{ url_for('login_user') }}">Login</a></li>            
         </ul>
     </header>
-    <!-- Contenido -->
-    <section class="container">
-        {% block content %}{% endblock %}
-    </section>
 
-    <aside></aside>
+    <!-- Contenedor principal centrado -->
+    <div class="content-container">
+        {% block content %}{% endblock %}            
+    </div>
 
     <footer class="footer">
         <div class="footer-container">
             <!-- Marca -->
             <div class="footer-brand">
                 <h3>Hotel Triple Frontera</h3>
-                <p>El hotel numero uno del Litoral</p>
+                <p>El hotel número uno del Litoral</p>
             </div>
 
             <!-- Enlaces principales -->
             <ul class="footer-links">
-                <li><a href="#">Inicio</a></li>            
+                <li><a href="{{ url_for('index') }}">Inicio</a></li>            
                 <li><a href="#">Acerca de</a></li>            
             </ul>
 
@@ -55,6 +66,7 @@
         </div>
     </footer>
     <!-- JS -->    
+     <script src="{{ url_for('static', path='js/header.js') }}"></script>
     {% block script %}{% endblock %}
 </body>
 </html>

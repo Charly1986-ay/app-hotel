@@ -27,3 +27,8 @@ ul, ol {
   margin: 0;
   padding: 0;
 }
+
+img {
+  max-width: 100%; /* Evita que las fotos se salgan de su contenedor */
+  display: block;  /* Quita un pequeño espacio blanco que dejan las imágenes abajo */
+}

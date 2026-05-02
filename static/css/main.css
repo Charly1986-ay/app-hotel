@@ -1,2 +1,14 @@
-@import './base/reset.css';
+/*              BASE            */
 @import './base/fonts.css';
+@import './base/reset.css';
+@import './base/variables.css';
+
+/*              UI             */
+@import './ui/button.css';
+/*@import './components/sidebar.css';*/
+@import './ui/form.css';
+
+/*            LAYOUT            */
+@import './layout/header.css';
+@import './layout/grid.css';
+@import './layout/footer.css';

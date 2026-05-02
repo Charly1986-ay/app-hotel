@@ -1,5 +1,419 @@
 {% extends 'base.html' %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/pages/index.css') }}">
+{% endblock %}
+
 {% block content %}
-<h1>Hotel Triple Frontera</h1>
+<div class="index-layout"> <!-- Este contenedor es la clave para el Flexbox -->
+    
+    <section class="container">
+        <div class="welcome-view">
+            <h1>Nuestras Habitaciones</h1>
+            <p>Explora nuestra selección exclusiva de habitaciones diseñadas para brindarte la mejor experiencia de descanso.</p>
+        </div>
+
+        <div class="rooms-list">
+            <!-- 1. Executive -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/executive.jpg') }}" alt="Habitación Executive">
+                    <span class="room-badge">executive</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Executive</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 1 Cama</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$35.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2. Executive 2 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/executive_2.jpg') }}" alt="Habitación Executive">
+                    <span class="room-badge">executive</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Executive</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 1 Cama</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$35.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 3. Executive Bed 2-1 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/executive_bed_2_1.jpg') }}" alt="Habitación Executive">
+                    <span class="room-badge">executive</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Executive</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 2 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$35.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 4. Executive Bed 2-2 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/executive_bed_2_2.jpg') }}" alt="Habitación Executive">
+                    <span class="room-badge">executive</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Executive</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 2 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$35.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 5. Standard Bed 2 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/standar_bed_2.jpg') }}" alt="Habitación Standard">
+                    <span class="room-badge">standard</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Standard</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 2 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$14.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 6. Standard Bed 2-1 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/standar_bed_2_1.jpg') }}" alt="Habitación Standard">
+                    <span class="room-badge">standard</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Standard</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 2 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$9.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 7. Standard Bed 2-2 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/standar_bed_2_2.jpg') }}" alt="Habitación Standard">
+                    <span class="room-badge">standard</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Standard</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 2 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$9.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 8. Standard Bed 3 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/standar_bed_3.jpg') }}" alt="Habitación Standard">
+                    <span class="room-badge">standard</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Standard</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 3 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 3 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$20.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 9. Standard Bed 4 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/standar_bed_4.jpg') }}" alt="Habitación Standard">
+                    <span class="room-badge">standard</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Standard</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 4 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 4 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$35.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 10. Suite 1 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/suite_1.jpg') }}" alt="Habitación Suite">
+                    <span class="room-badge">suite</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Suite</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 1 Cama</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$50.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 11. Suite 2 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/suite_2.jpg') }}" alt="Habitación Suite">
+                    <span class="room-badge">suite</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Suite</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 1 Cama</span>
+                            <span><i class="fas fa-users"></i> Máx. 2 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$50.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 12. Suite Familiar -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/suite_familiar.jpg') }}" alt="Habitación Suite">
+                    <span class="room-badge">suite</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Suite Familiar</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 3 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 3 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$60.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 13. Suite Familiar 2 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/suite_familiar_2.jpg') }}" alt="Habitación Suite">
+                    <span class="room-badge">suite</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Suite Familiar</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 2 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 3 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$60.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 14. Suite Familiar 3 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/suite_familiar_3.jpg') }}" alt="Habitación Suite">
+                    <span class="room-badge">suite</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Suite Familiar</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 4 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 5 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$65.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 15. Suite Familiar 4 -->
+            <article class="hotel-post">
+                <div class="room-image">
+                    <img src="{{ url_for('static', path='img/suite_familiar_4.jpg') }}" alt="Habitación Suite">
+                    <span class="room-badge">suite</span>
+                </div>
+                <div class="room-content">
+                    <div class="room-header">
+                        <h2>Habitación Suite Familiar</h2>
+                        <p class="room-specs">
+                            <span><i class="fas fa-bed"></i> 4 Camas</span>
+                            <span><i class="fas fa-users"></i> Máx. 5 personas</span>
+                        </p>
+                    </div>
+                    <div class="room-footer">
+                        <div class="room-price">
+                            <span class="price-amount">$65.99</span>
+                            <span class="price-night">/ noche</span>
+                        </div>
+                        <button class="btn-secondary">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <aside class="sidebar">
+        <h3>Tu Estancia</h3>
+
+        <!-- Nueva sección de horarios -->
+        <div class="hotel-policies">
+            <span>Check-in: <strong>12:00</strong></span>
+            <span>Check-out: <strong>10:00</strong></span>
+        </div>
+        
+        <!-- El formulario envía los datos por GET para que la URL sea compartible -->
+        <form action="" method="GET" class="booking-form">
+            <div class="form-group">
+                <!-- Agregamos class="form-label" -->
+                <label for="checkin" class="form-label">Entrada</label>
+                <!-- Agregamos class="form-input" -->
+                <input type="date" id="checkin" name="checkin" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkout" class="form-label">Salida</label>
+                <input type="date" id="checkout" name="checkout" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="guests" class="form-label">Huéspedes</label>
+                <!-- Agregamos class="form-select" -->
+                <select id="guests" name="guests" class="form-select">
+                    <option value="1">1 Persona</option>
+                    <option value="2" selected>2 Personas</option>
+                    <option value="3">3 Personas</option>
+                    <option value="4">4 Personas</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Buscar Disponibilidad</button>
+        </form>
+    </aside>
+
+</div>
 {% endblock %}
