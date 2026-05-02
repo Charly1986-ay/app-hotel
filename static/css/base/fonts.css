@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+/* Importamos los pesos 400 (normal) y 700 (negrita) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-* {
-    font-family: 'Roboto', sans-serif;
+:root {
+    --font-main: 'Roboto', sans-serif;
 }

@@ -6,7 +6,7 @@
 
     /* --- CAPA 1: COLORES DE MARCA --- */
     --primary-color: #701705;    /* Vino Institucional */
-    --primary-hover: rgba(112, 23, 5, 0.85); 
+    --primary-hover: #8B1D06; 
     --secondary-color: #b8921f;  /* Dorado/Ocre para acentos */
 
     /* --- CAPA 2: COMPONENTES DE NAVEGACIÓN --- */
@@ -43,4 +43,14 @@
     --footer-text: var(--bg-main);       /* Texto Marfil para legibilidad */
     --footer-accent: var(--secondary-color); /* Acentos en Dorado */
     --footer-muted: var(--text-muted); /* Marfil con transparencia para copyright */
+
+    /* El café elegante suavizado para usarlo como sombra */
+    --color-shadow: var(--bg-sidebar);
+
+    /* ESTRUCTURA (Factorización de formas) */
+    --radius-main: 10px;        /* El valor que usabas en botones y formularios */
+    --border-width: 2px;        /* El grosor que usabas en tus botones */
+    
+    /* ANIMACIONES (Factorización de tiempos) */
+    --transition-fast: all 0.3s ease; /* El estándar que definiste en tus botones */
 }

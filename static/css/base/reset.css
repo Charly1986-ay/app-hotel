@@ -1,34 +1,51 @@
+/* 1. Limpieza Universal */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* 2. Configuración General (Aplica a TODA la página) */
 html, body {
-  margin: 0;
-  padding: 0;
+    height: 100%;
+    font-family: var(--font-main);
+    background-color: var(--bg-main); /* El marfil que definimos */
+    color: var(--text-body);          /* El gris cálido base */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
 }
 
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
+/* 3. El fin de la repetición: Herencia forzada */
+/* Esto hace que inputs y botones usen automáticamente la fuente del body */
+button, 
+input, 
+select, 
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
 }
 
-/* Reset de links */
+/* 4. Reseteo de elementos específicos */
 a {
-  color: inherit;
-  text-decoration: none;
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Listas */
 ul, ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
 }
 
 img {
-  max-width: 100%; /* Evita que las fotos se salgan de su contenedor */
-  display: block;  /* Quita un pequeño espacio blanco que dejan las imágenes abajo */
+    max-width: 100%;
+    display: block;
+    height: auto;
+}
+
+/* Reset básico para botones (para que .btn tome el control total) */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
 }

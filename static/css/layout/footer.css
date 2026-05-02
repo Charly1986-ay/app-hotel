@@ -5,7 +5,7 @@
     text-align: center;
     padding: 40px 0;
     margin-top: 60px;
-    border: 2px solid var(--footer-accent); /* Línea dorada superior */
+    border-top: 2px solid var(--footer-accent); /* Factorizado: border-top en lugar de border total */
 }
 
 .footer-container {
@@ -17,8 +17,7 @@
 /* --- LISTAS DE ENLACES Y SOCIALES --- */
 .footer-links, 
 .footer-socials {
-    list-style: none;
-    padding: 0;
+    /* list-style y padding ya vienen limpios del reset */
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -30,29 +29,29 @@
 }
 
 .footer-links a {
+    /* color: inherit; podría funcionar, pero mantenemos tu variable específica */
     color: var(--footer-text);
-    text-decoration: none;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: color 0.3s ease;
+    transition: var(--transition-fast); /* Factorizado con tu variable */
 }
 
 .footer-links a:hover {
-    color: var(--footer-accent); /* El enlace brilla en dorado */
+    color: var(--footer-accent);
 }
 
 /* --- ICONOS SOCIALES --- */
 .footer-socials a {
-    color: var(--footer-accent); /* Iconos directamente en dorado */
+    color: var(--footer-accent);
     font-size: 1.3rem;
-    transition: transform 0.3s ease;
+    transition: var(--transition-fast); /* Factorizado con tu variable */
     display: inline-block;
 }
 
 .footer-socials a:hover {
     transform: translateY(-3px);
-    color: var(--bg-pure); /* Blanco puro al hover para destacar */
+    color: var(--bg-pure);
 }
 
 /* --- TEXTO INFERIOR --- */

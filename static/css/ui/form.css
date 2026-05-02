@@ -1,6 +1,5 @@
 /* --- COMPONENT: Form --- */
 
-/* Contenedor de cada campo */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -8,7 +7,6 @@
     margin-bottom: 15px;
 }
 
-/* Estilo para las etiquetas */
 .form-label {
     font-weight: 600;
     font-size: 0.9rem;
@@ -22,32 +20,30 @@
     width: 100%;
     padding: 12px 15px; 
     border: 1px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: var(--radius-main); /* Factorizado con tu variable */
     background-color: var(--bg-pure);
-    color: var(--text-body);
-    font-family: inherit;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
     
-    /* Forzamos altura idéntica */
+    /* Eliminamos font-family, font-size y color: ya vienen del Reset/Body */
+    
+    transition: var(--transition-fast); /* Factorizado con tu variable */
+    
     line-height: 1.5; 
     min-height: 48px; 
 }
 
-/* Estado Focus con color Vino */
+/* --- ELIMINAMOS EL BORDE INVASIVO --- */
 .form-input:focus, 
 .form-select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(112, 23, 5, 0.1);
+    /* Cambiamos el color sólido por un resplandor suave del color Vino */
+    box-shadow: 0 0 0 4px rgba(120, 20, 20, 0.1); 
 }
 
-/* Ajuste específico para el Combobox (Select) */
+/* Ajuste específico para el Select */
 .form-select {
     cursor: pointer;
-    appearance: none; /* Quita la flecha fea por defecto */
-    /* Flecha minimalista personalizada */
+    appearance: none; 
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 15px center;
