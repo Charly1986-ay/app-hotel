@@ -9,64 +9,19 @@
     {% block css %}{% endblock %}
 </head>
 <body>
-    <header class="header">
-        <a href="#" class="logo">
-            <!-- El texto va directamente aquí, sin etiquetas <img> que confundan a Chrome -->
-            <span>Logo Hotel</span> 
-        </a>
+    
+    <!-- HEADER MODULAR -->
+    {% include 'includes/_header.html' %}
 
-        <!-- El botón debe tener estos 3 spans -->
-        <button class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <ul class="nav" id="nav-list">
-            <li><a href="{{ url_for('index') }}">Inicio</a></li>
-            <li><a href="{{ url_for('account_user') }}">Crear cuenta</a></li>
-            <li><a href="{{ url_for('login_user') }}">Login</a></li>            
-        </ul>
-    </header>
-
-    <!-- Contenedor principal centrado -->
     <div class="content-container">
         {% block content %}{% endblock %}            
     </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <!-- Marca -->
-            <div class="footer-brand">
-                <h3>Hotel Triple Frontera</h3>
-                <p>El hotel número uno del Litoral</p>
-            </div>
+    <!-- FOOTER MODULAR -->
+    {% include 'includes/_footer.html' %}
 
-            <!-- Enlaces principales -->
-            <ul class="footer-links">
-                <li><a href="{{ url_for('index') }}">Inicio</a></li>            
-                <li><a href="#">Acerca de</a></li>            
-            </ul>
-
-            <!-- Redes sociales -->
-            <ul class="footer-socials">
-                <li><a href="#" aria-label="Facebook">📘 Facebook</a></li>
-                <li><a href="#" aria-label="Twitter">🐦Twitter</a></li>
-                <li><a href="#" aria-label="Instagram">📸 Instagram</a></li>
-                <li><a href="#" aria-label="LinkedIn">💼 LinkedIn</a></li>
-            </ul>
-
-            <!-- Información -->
-            <div class="footer-info">
-                <h3>Contacto</h3>            
-                <p>info@hoteltf.com</p>
-                <p>Av. Costanera 1205 - Corrientes, Corrientes Argentina</p>
-                <p><span>2026</span>. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
     <!-- JS -->    
-     <script src="{{ url_for('static', path='js/header.js') }}"></script>
+    <script src="{{ url_for('static', path='js/header.js') }}"></script>
     {% block script %}{% endblock %}
 </body>
 </html>
