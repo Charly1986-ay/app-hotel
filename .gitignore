@@ -35,6 +35,7 @@ app/media/
 uploads/
 static/uploads/
 static/img/
+static/icons/
 
 # -----------------------------
 # Logs

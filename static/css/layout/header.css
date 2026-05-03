@@ -3,7 +3,7 @@
 .header {
     background-color: var(--nav-bg);
     color: var(--nav-text);
-    border: 2px solid var(--nav-border);
+    /*border: 2px solid var(--nav-border);*/
     padding: 15px 5%;
     display: flex;
     justify-content: space-between;

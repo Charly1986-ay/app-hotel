@@ -5,7 +5,7 @@
     text-align: center;
     padding: 40px 0;
     margin-top: 60px;
-    border-top: 2px solid var(--footer-accent); /* Factorizado: border-top en lugar de border total */
+    /*border-top: 2px solid var(--footer-accent);  Factorizado: border-top en lugar de border total */
 }
 
 .footer-container {
