@@ -17,9 +17,11 @@ def check_out(db: Session, check_out: date) -> None:
                 for room in booking.rooms:
                     if room.status == StatusRoom.OCCUPIED:
                         roomUpdate = RoomUpdate(status=StatusRoom.PENDING_CLEANING)
-                        repoRoom.update(room=room, updates=roomUpdate.model_dump())
+                        repoRoom.update(room=room, updates=roomUpdate.model_dump(exclude_unset=True))
                         print(f'Habitación {room.id} enviada a limpieza.')
             db.commit()
+        else:
+            print('no hay reservas')
     except Exception as e:
         print(f"Error en el job OUT: {e}")
         db.rollback()    
@@ -35,9 +37,11 @@ def check_in(db: Session, check_in: date):
                 for room in booking.rooms:
                     if room.status == StatusRoom.AVAILABLE:
                         roomUpdate = RoomUpdate(status=StatusRoom.OCCUPIED)
-                        repoRoom.update(room=room, updates=roomUpdate.model_dump())
+                        repoRoom.update(room=room, updates=roomUpdate.model_dump(exclude_unset=True))
                         print(f"Habitación {room.id} bloqueada por Check-in.")
             db.commit()
+        else:
+            print('no hay reservas')
     except Exception as e:
         print(f"Error en el job IN: {e}")
         db.rollback()

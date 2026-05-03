@@ -4,14 +4,16 @@ ROOMS = [
         'max_capacity': 2,
         'price': 35.99,
         'image': 'executive.jpg',
-        'type_room': 'executive'
+        'type_room': 'executive',
+        'status': 'occupied',
     },    
     {
         'bed_count': 1,
         'max_capacity': 2,
         'price': 35.99,
         'image': 'executive_2.jpg',
-        'type_room': 'executive'
+        'type_room': 'executive',
+        'status': 'occupied'
     },
     {
         'bed_count': 2,

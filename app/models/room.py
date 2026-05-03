@@ -51,11 +51,11 @@ class RoomCreate(SQLModel):
 
 
 class RoomUpdate(SQLModel):
-    bed_count: Optional[int]
-    max_capacity: Optional[int]
-    price: Optional[Decimal]
-    type_room: Optional[TypeRoom]
-    status: Optional[StatusRoom]
+    bed_count: Optional[int] = None
+    max_capacity: Optional[int] = None
+    price: Optional[Decimal] = None
+    type_room: Optional[TypeRoom] = None
+    status: Optional[StatusRoom] = None
 
 
 class RoomResponse(SQLModel):

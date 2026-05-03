@@ -18,6 +18,12 @@ USERS = [
         "password": "pedro123!"
     },
     {
+        "email": "marcelo@example.com",
+        "full_name": "marcelo",        
+        "role": "client",
+        "password": "marcelo123!"
+    },
+    {
         "email": "ricardo@example.com",
         "full_name": "Ricardo Cuéllar",        
         "role": "receptionist",

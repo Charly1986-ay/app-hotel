@@ -1,6 +1,6 @@
 import typer
 
-from app.seeds.service import run_all, run_users, run_rooms
+from app.seeds.service import run_all, run_users, run_rooms, run_booking
 
 app = typer.Typer(help='Seeds: users, rooms')
 
@@ -17,7 +17,13 @@ def users():
     typer.echo("Usuarios cargados")
 
 
-@app.command("categories")
+@app.command("rooms")
 def rooms():
     run_rooms()
     typer.echo("Habitaciones cargadas")
+
+
+@app.command("booking")
+def bookings():
+    run_booking()
+    typer.echo("reservas cargadas")
