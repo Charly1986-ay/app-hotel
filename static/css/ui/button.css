@@ -33,6 +33,6 @@
 }
 
 /* Opcional: Si quieres que al pasar el mouse el primary haga algo distinto */
-.btn-primary:hover {
-    color: var(--btn-primary-text-hover); /* Cambia a blanco al flotar para que resalte más */
-}
+/*.btn-primary:hover {    
+    color: var(--btn-primary-text-hover); 
+}*/
