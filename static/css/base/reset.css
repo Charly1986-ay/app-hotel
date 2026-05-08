@@ -16,6 +16,10 @@ html, body {
     scroll-behavior: smooth;
 }
 
+h1 {
+    color: var(--text-title);
+}
+
 /* 3. El fin de la repetición: Herencia forzada */
 /* Esto hace que inputs y botones usen automáticamente la fuente del body */
 button, 
