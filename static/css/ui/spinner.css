@@ -1,0 +1,55 @@
+/* ========================================================================== 
+   COMPONENTE: Spinner
+   ========================================================================== */
+
+/* Contenedor genérico del spinner */
+.spinner-base {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--spin-border);
+    border-radius: var(--radius-main);
+    background-color: var(--spin-bg);
+    overflow: hidden;
+    height: 48px;
+    transition: var(--transition-fast);
+}
+
+.spinner-base:focus-within {
+    border-color: var(--spin-focus-border);
+    box-shadow: 0 0 0 4px var(--spin-focus-ring);
+}
+
+/* Botones del spinner (heredan .btn) */
+.spinner-btn {
+    width: 42px;
+    height: 100%;
+    padding: 0; /* no interferir con .btn */
+    background-color: var(--spin-btn-bg);
+    color: var(--spin-text);
+}
+
+/* Input numérico del spinner */
+.spinner-input {
+    flex: 1;
+    width: 35px;
+    height: 100%;
+    text-align: center;
+    border: none;
+    font-weight: bold;
+    background: transparent;
+    color: var(--spin-text);
+    -moz-appearance: textfield; 
+    appearance: none;
+}
+
+.spinner-input:focus {
+    outline: none;
+}
+
+/* Ocultar flechas en navegadores webkit */
+.spinner-input::-webkit-outer-spin-button,
+.spinner-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}

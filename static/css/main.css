@@ -5,6 +5,7 @@
 
 /*              UI             */
 @import './ui/button.css';
+@import './ui/spinner.css';
 /*@import './components/sidebar.css';*/
 @import './ui/form.css';
 

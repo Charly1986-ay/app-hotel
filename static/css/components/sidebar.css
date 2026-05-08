@@ -1,3 +1,7 @@
+/* ==========================================================================
+   SIDEBAR: Estructura Principal y Layout
+   ========================================================================== */
+
 .sidebar {
     background-color: var(--bg-pure);
     border: 1px solid var(--input-border);
@@ -30,27 +34,71 @@
     color: var(--primary-color);
 }
 
+
+/* ==========================================================================
+   FORMULARIO DE RESERVAS
+   ========================================================================== */
+
 .booking-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.form-label {
-    font-size: 0.85rem;
-    font-weight: 700;
+
+/* ==========================================================================
+   CONTENEDOR DE HABITACIONES
+   ========================================================================== */
+
+.room-row {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-main);
 }
 
-.sidebar .btn-primary {
+
+/* ==========================================================================
+   BOTONES DE ACCIÓN (Unificados con el mismo tamaño)
+   ========================================================================== */
+
+/* Forzamos consistencia en el tamaño y relleno de ambos botones */
+.sidebar .btn-primary,
+.sidebar .btn-outline {
     width: 100%;
     padding: 12px;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
 }
 
-/* RESPONSIVO: Libera el sidebar */
+/* Margen elegante para el contenedor del botón de añadir habitación */
+.add-room-wrapper {
+    margin-bottom: 5px;
+}
+
+
+/* ==========================================================================
+   ALINEACIÓN DE ÍCONOS (FontAwesome)
+   ========================================================================== */
+
+/* Alinea y separa los íconos del texto en las políticas, etiquetas y botones */
+.sidebar i,
+.booking-form i {
+    margin-right: 8px;       /* Separa el ícono del texto */
+    font-size: 0.95em;       /* Proporción perfecta respecto a la fuente */
+    vertical-align: -1px;    /* Ajuste milimétrico para que queden centrados en la línea */
+}
+
+
+/* ==========================================================================
+   RESPONSIVO: Despliegue en pantallas pequeñas
+   ========================================================================== */
+
 @media (max-width: 1024px) {
     .sidebar {
-        position: static; /* Deja de flotar para no tapar contenido */
+        position: static; /* Deja de flotar */
         width: 100%;
-        order: 1; /* Aparece primero en móvil */
+        order: 1;         /* Se ubica arriba del contenido */
     }
 }

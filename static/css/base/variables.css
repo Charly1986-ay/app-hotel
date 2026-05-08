@@ -38,6 +38,14 @@
     --input-border: rgba(112, 23, 5, 0.2); 
     --input-bg: var(--bg-pure);  /* Los inputs deben ser blancos para resaltar */
 
+    /* Mapeo directo a tus variables oficiales */
+    --spin-border: var(--input-border);
+    --spin-bg: var(--bg-pure);
+    --spin-text: var(--text-title);
+    --spin-btn-bg: transparent;    
+    --spin-focus-border: var(--primary-color);
+    --spin-focus-ring: color-mix(in srgb, var(--primary-color) 15%, transparent);
+
     /* --- CAPA 6: FOOTER --- */
     --footer-bg: var(--primary-color);   /* Fondo Vino para cerrar con fuerza */
     --footer-text: var(--bg-main);       /* Texto Marfil para legibilidad */
@@ -48,7 +56,7 @@
     --color-shadow: var(--bg-sidebar);
 
     /* ESTRUCTURA (Factorización de formas) */
-    --radius-main: 10px;        /* El valor que usabas en botones y formularios */
+    --radius-main: 5px;        /* El valor que usabas en botones y formularios */
     --border-width: 2px;        /* El grosor que usabas en tus botones */
     
     /* ANIMACIONES (Factorización de tiempos) */

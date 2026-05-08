@@ -1,0 +1,72 @@
+<aside class="sidebar">
+    <h3>ENTRADA / SALIDA</h3>
+
+    <div class="hotel-policies">
+        <span><i class="fa-solid fa-clock-rotate-left"></i> Check-in: <strong>12:00 p.m.</strong></span>
+        <span><i class="fa-solid fa-clock"></i> Check-out: <strong>10:00 a.m.</strong></span>
+    </div>
+
+    <form action="" method="GET" class="booking-form">
+
+        <!-- Entrada / Salida -->
+        <div class="form-group">
+            <label for="checkin" class="form-label">
+                <i class="fa-regular fa-calendar-days"></i> Entrada
+            </label>
+            <input type="date" id="checkin" name="checkin" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+            <label for="checkout" class="form-label">
+                <i class="fa-regular fa-calendar-days"></i> Salida
+            </label>
+            <input type="date" id="checkout" name="checkout" class="form-input" required>
+        </div>
+
+        <!-- Habitaciones -->
+        <div id="rooms-container" class="rooms-container">
+
+            <div class="room-row" data-room-index="1">
+                <div class="room-header">
+                    <span class="room-title">Habitación 1</span>
+                </div>
+
+                <div class="room-spinners">
+                    <!-- Adultos -->
+                    <div class="guest-spinner-group">
+                        <span class="spinner-label">Adultos</span>
+                        <div class="spinner-base">
+                            <button type="button" class="btn spinner-btn dec-btn">-</button>
+                            <input type="text" name="rooms[1][adults]" class="spinner-input" value="1" readonly>
+                            <button type="button" class="btn spinner-btn inc-btn">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Niños -->
+                    <div class="guest-spinner-group">
+                        <span class="spinner-label">Niños</span>
+                        <div class="spinner-base">
+                            <button type="button" class="btn spinner-btn dec-btn">-</button>
+                            <input type="text" name="rooms[1][children]" class="spinner-input" value="0" readonly>
+                            <button type="button" class="btn spinner-btn inc-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Añadir Habitación -->
+        <div class="add-room-wrapper">
+            <button type="button" id="btn-add-room" class="btn btn-outline">
+                + Añadir Habitación
+            </button>
+        </div>
+
+        <!-- Buscar Disponibilidad -->
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> Buscar Disponibilidad
+        </button>
+
+    </form>
+</aside>

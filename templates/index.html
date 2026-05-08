@@ -34,47 +34,12 @@
         </div>
     </section>
 
-    <aside class="sidebar">
-        <h3>Entrada / Salida</h3>
-
-        <!-- Nueva sección de horarios -->
-        <div class="hotel-policies">
-            <span>Check-in: <strong>12:00 p.m.</strong></span>
-            <span>Check-out: <strong>10:00 a.m.</strong></span>
-        </div>
-        
-        <!-- El formulario envía los datos por GET para que la URL sea compartible -->
-        <form action="" method="GET" class="booking-form">
-            <div class="form-group">
-                <!-- Agregamos class="form-label" -->
-                <label for="checkin" class="form-label">Entrada</label>
-                <!-- Agregamos class="form-input" -->
-                <input type="date" id="checkin" name="checkin" class="form-input" required>
-            </div>
-
-            <div class="form-group">
-                <label for="checkout" class="form-label">Salida</label>
-                <input type="date" id="checkout" name="checkout" class="form-input" required>
-            </div>
-
-            <div class="form-group">
-                <label for="guests" class="form-label">Huéspedes</label>
-                <!-- Agregamos class="form-select" -->
-                <select id="guests" name="guests" class="form-select">
-                    <option value="1">1 Persona</option>
-                    <option value="2" selected>2 Personas</option>
-                    <option value="3">3 Personas</option>
-                    <option value="4">4 Personas</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Buscar Disponibilidad</button>
-        </form>
-    </aside>
+    <!-- HEADER MODULAR -->
+    {% include 'includes/_sidebar.html' %}
 
 </div>
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', path='js/aside.js') }}"></script>
+<script src="{{ url_for('static', path='js/sidebar.js') }}"></script>
 {% endblock %}
