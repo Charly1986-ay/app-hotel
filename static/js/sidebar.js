@@ -1,5 +1,6 @@
 let countRoom = 1;
-const MAX_ROOMS = 2;
+const MAX_ROOMS = 3;
+const bedCount = 5;
 
 const roomContainer = document.querySelector('.rooms-container');
 const btnAddRoom = document.querySelector('#btn-add-room');
@@ -21,6 +22,7 @@ btnAddRoom.addEventListener('click', () => {
     }
 });
 
+
 // Función para setear fechas por defecto
 function setDefaultDate() {
     const checkIn = document.querySelector('#checkin');
@@ -41,8 +43,7 @@ function loadRoom() {
     divRoomRow.classList.add('room-row');
 
     divRoomRow.innerHTML = `
-        <div class="room-header">
-            <span class="room-title">Habitación ${countRoom}</span>
+        <div class="room-header">            
             ${countRoom > 1 ? `<button type="button" class="btn-delete-icon">
                 <i class="fa fa-trash"></i>
             </button>` : ''}
@@ -53,9 +54,9 @@ function loadRoom() {
             <div class="guest-spinner-group">
                 <span class="spinner-label">Adultos</span>
                 <div class="spinner-base">
-                    <button type="button" class="btn spinner-btn dec-btn">-</button>
+                    <button type="button" class="btn-outline spinner-btn dec-btn">-</button>
                     <input type="text" name="rooms[${countRoom}][adults]" class="spinner-input" value="1" readonly>
-                    <button type="button" class="btn spinner-btn inc-btn">+</button>
+                    <button type="button" class="btn-outline spinner-btn inc-btn">+</button>
                 </div>
             </div>
 
@@ -63,9 +64,9 @@ function loadRoom() {
             <div class="guest-spinner-group">
                 <span class="spinner-label">Niños</span>
                 <div class="spinner-base">
-                    <button type="button" class="btn spinner-btn dec-btn">-</button>
+                    <button type="button" class="btn-outline spinner-btn dec-btn">-</button>
                     <input type="text" name="rooms[${countRoom}][children]" class="spinner-input" value="0" readonly>
-                    <button type="button" class="btn spinner-btn inc-btn">+</button>
+                    <button type="button" class="btn-outline spinner-btn inc-btn">+</button>
                 </div>
             </div>
         </div>

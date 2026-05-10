@@ -25,35 +25,32 @@ class BookingRepository:
             select(Booking).where(Booking.check_out == check_out)).all()
     
 
-    def get_available_rooms_by_type(self, room_type: str, start: date, end: date) -> list[Room]:
+    def get_all_available_rooms(self, start: date, end: date) -> list[Room]:
         """
-        Busca habitaciones disponibles considerando la relación Many-to-Many.
-        Filtra por tipo y excluye las que tienen conflictos en Booking.
+        Busca todas las habitaciones disponibles.
         """
         
-        # 1. Subconsulta: Buscamos los IDs de las habitaciones que están ocupadas.
-        # Necesitamos unir BookingRoom con Booking para filtrar por fechas.
+        # 1. Subconsulta: IDs de habitaciones con conflictos de fechas
+        # Se une la tabla intermedia (BookingRoom) con la de reservas (Booking)
         rooms_with_conflict = (
             select(BookingRoom.room_id)
-            .join(Booking)  # Unimos la tabla intermedia con la de reservas
+            .join(Booking)
             .where(
                 Booking.check_in < end,
                 Booking.check_out > start,
-                # Opcional: Solo considerar reservas confirmadas o pagadas
-                # Booking.status == StatusBooking.CONFIRMED 
+                # Booking.status != StatusBooking.CANCELLED (Sugerido: omitir canceladas)
             )
         )
 
-        # 2. Consulta principal: Habitaciones de un tipo que no estén en la subconsulta
+        # 2. Consulta principal: Seleccionar habitaciones que NO estén en la subconsulta
         statement = (
             select(Room)
             .where(
-                Room.type_room == room_type,
                 col(Room.id).not_in(rooms_with_conflict)
             )
         )
 
-        # 3. Ejecución y retorno de la lista de objetos Room
+        # 3. Ejecución
         return self.db.exec(statement).all()
     
 

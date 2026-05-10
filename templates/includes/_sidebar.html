@@ -24,21 +24,24 @@
         </div>
 
         <!-- Habitaciones -->
+        <div class="form-group">
+            <label for="room" class="form-label">
+                <i class="fa-solid fa-bed"></i> Habitaciones
+            </label>
+        </div>
+
         <div id="rooms-container" class="rooms-container">
 
-            <div class="room-row" data-room-index="1">
-                <div class="room-header">
-                    <span class="room-title">Habitación 1</span>
-                </div>
+            <div class="room-row" data-room-index="1">           
 
                 <div class="room-spinners">
                     <!-- Adultos -->
                     <div class="guest-spinner-group">
                         <span class="spinner-label">Adultos</span>
                         <div class="spinner-base">
-                            <button type="button" class="btn spinner-btn dec-btn">-</button>
+                            <button type="button" class="btn-outline spinner-btn dec-btn">-</button>
                             <input type="text" name="rooms[1][adults]" class="spinner-input" value="1" readonly>
-                            <button type="button" class="btn spinner-btn inc-btn">+</button>
+                            <button type="button" class="btn-outline spinner-btn inc-btn">+</button>
                         </div>
                     </div>
 
@@ -46,9 +49,9 @@
                     <div class="guest-spinner-group">
                         <span class="spinner-label">Niños</span>
                         <div class="spinner-base">
-                            <button type="button" class="btn spinner-btn dec-btn">-</button>
+                            <button type="button" class="btn-outline spinner-btn dec-btn">-</button>
                             <input type="text" name="rooms[1][children]" class="spinner-input" value="0" readonly>
-                            <button type="button" class="btn spinner-btn inc-btn">+</button>
+                            <button type="button" class="btn-outline spinner-btn inc-btn">+</button>
                         </div>
                     </div>
                 </div>
