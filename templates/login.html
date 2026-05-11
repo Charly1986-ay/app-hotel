@@ -12,7 +12,7 @@
             <p>Accede a tu cuenta para gestionar tus reservas</p>
         </div>
 
-        <form action="/login" method="POST" class="auth-form">
+        <form action="/auth/login" method="POST" class="auth-form">
             <div class="form-group">
                 <label for="email">Correo Electrónico</label>
                 <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
@@ -38,4 +38,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', path='js/auth.js') }}"></script>
 {% endblock %}

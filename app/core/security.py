@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta, timezone
+from enum import Enum
 import jwt
 from pwdlib import PasswordHash
 from .config import settings
-from .exceptions import AuthException
+from .exceptions import CredentialsException, ExpiredTokenException
 
 
 password_hash = PasswordHash.recommended()
@@ -21,23 +22,42 @@ def verify_access_token(token: str):
         payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALG])
         return payload
     except jwt.ExpiredSignatureError:
-        return AuthException()
+        raise ExpiredTokenException()
     except jwt.InvalidTokenError as e:
-        return AuthException()
+        raise CredentialsException()
 
 
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+    """
+    Crea un JWT firmado. 
+    Convierte automáticamente Enums a strings y asegura que 'sub' sea string.
+    """
     to_encode = data.copy()
+    
+    # 1. Definir tiempo de expiración
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
-    else:        
+    else:         
         expire = datetime.now(timezone.utc) + timedelta(minutes=settings.JWT_EXPIRES_MIN)
 
+    # 2. Limpieza y serialización de datos
+    for key, value in to_encode.items():
+        # Si es un Enum (como tu Role), extraemos el valor real ("admin", "manager")
+        if isinstance(value, Enum):
+            to_encode[key] = value
+        # El estándar JWT prefiere que el 'sub' (User ID) sea string
+        elif key == "sub":
+            to_encode[key] = str(value)
+
+    # 3. Añadir el claim de expiración
     to_encode.update({"exp": expire})
 
-    # Convertir sub a string
-    if "sub" in to_encode:
-        to_encode["sub"] = str(to_encode["sub"])
-
-    return jwt.encode(to_encode, settings.JWT_SECRET, algorithm=settings.JWT_ALG)
+    # 4. Generar el token firmado
+    encoded_jwt = jwt.encode(
+        to_encode, 
+        settings.JWT_SECRET, 
+        algorithm=settings.JWT_ALG
+    )
+    
+    return encoded_jwt

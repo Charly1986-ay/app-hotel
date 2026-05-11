@@ -25,6 +25,6 @@ def get_index(request: Request, db: DBSession):
         }
     )
 
-@router.post('', response_model=RoomResponse, status_code=status.HTTP_201_CREATED)
+@router.post('/reserve', response_model=RoomResponse, status_code=status.HTTP_201_CREATED)
 def create_booking(request: Request, db: DBSession):
     pass

@@ -6,8 +6,8 @@ from sqlmodel import Field, SQLModel
 
 
 class UserStatus(str, Enum):
-    ACTIVE = "active"
-    INACTIVE = "inactive"
+    ACTIVE = 'active'
+    INACTIVE = 'inactive'
 
 
 class Role(str, Enum):
@@ -18,18 +18,18 @@ class Role(str, Enum):
 
 
 class User(SQLModel, table=True):
-    __tablename__ = "user"
-    __table_args__ = {"extend_existing": True}
+    __tablename__ = 'user'
+    __table_args__ = {'extend_existing': True}
     id: Optional[int] = Field(default=None, primary_key=True)
     email: str = Field(index=True, unique=True)
     full_name: str
     hashed_password: str
-    role: Role = Field(default=Role.CLIENT)
+    role: str = Field(default=Role.CLIENT.value)
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), 
         nullable=False
     )
-    status: UserStatus = Field(default=UserStatus.ACTIVE)
+    status: str = Field(default=UserStatus.ACTIVE.value)
 
 
 class UserCreate(SQLModel):
@@ -46,13 +46,18 @@ class UserUpdate(SQLModel):
     password: Optional[str] = None   
 
 
-class Login(SQLModel):
+class UserLogin(SQLModel):
     email: str    
     password: str
+
+
+class TokenResponse(SQLModel):
+    access_token: str
+    role: Role
     
 
 class UserResponse(SQLModel):
     id: int
     email: str
     full_name: str
-    model_config = {"from_attributes": True}
+    model_config = {'from_attributes': True}

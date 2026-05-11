@@ -15,16 +15,16 @@ class TransactionStatus(str, Enum):
 
 
 class Transaction(SQLModel, table=True):
-    __tablename__ = "transaction"
-    __table_args__ = {"extend_existing": True}
+    __tablename__ = 'transaction'
+    __table_args__ = {'extend_existing': True}
     id: Optional[int] = Field(default=None, primary_key=True)
-    booking_id: int = Field(foreign_key="booking.id", unique=True)
+    booking_id: int = Field(foreign_key='booking.id', unique=True)
     amount: Decimal = Field(default=0, max_digits=10, decimal_places=2)
     status: TransactionStatus = Field(default=TransactionStatus.PENDING)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
     
-    # Relación: Usamos string "Booking"
-    booking: Optional["Booking"] = Relationship(back_populates="transaction")
+    # Relación: Usamos string 'Booking'
+    booking: Optional['Booking'] = Relationship(back_populates='transaction')
 
 class TransactionCreate(SQLModel):
     booking_id: int
@@ -42,4 +42,4 @@ class TransactionResponse(SQLModel):
     amount: Decimal
     status: TransactionStatus
     created_at: datetime    
-    model_config = {"from_attributes": True}
+    model_config = {'from_attributes': True}

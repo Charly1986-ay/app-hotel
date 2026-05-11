@@ -10,8 +10,11 @@ class UserRepository:
         return self.db.get(User, user_id)
     
     def get_by_email(self, email: str) -> User | None:
-        return self.db.exec(
-            select(User).where(User.email == email)).first()
+        # 1. Ejecutamos la consulta con await (esto devuelve un ScalarResult)
+        result = self.db.exec(select(User).where(User.email == email))
+        
+        # 2. Obtenemos el primer resultado
+        return result.one_or_none()
     
     def create(self, user: User) -> User:
         self.db.add(user)

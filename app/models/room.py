@@ -16,27 +16,27 @@ class TypeRoom(str, Enum):
     SUITE = 'suite'    
 
 class StatusRoom(str, Enum):
-    AVAILABLE = "available"
-    OCCUPIED = "occupied"
-    PENDING_CLEANING = "pending_cleaning"
-    MAINTENANCE = "maintenance"  
+    AVAILABLE = 'available'
+    OCCUPIED = 'occupied'
+    PENDING_CLEANING = 'pending_cleaning'
+    MAINTENANCE = 'maintenance'  
 
 
 class Room(SQLModel, table=True):
-    __tablename__ = "room"
-    __table_args__ = {"extend_existing": True}
+    __tablename__ = 'room'
+    __table_args__ = {'extend_existing': True}
     id: Optional[int] = Field(default=None, primary_key=True)
     # ge → mínimo permitido (inclusive), le → máximo permitido (inclusive)
     bed_count: int = Field(default=1, ge=1, le=3) # cantidad de camas
     max_capacity: int = Field(default=1, ge=1, le=4) # capacidad maxima
     price: Decimal = Field(default=0, max_digits=10, decimal_places=2)
     image: str = Field(default=None, min_length=1, max_length=150)
-    type_room: TypeRoom = Field(default=TypeRoom.STANDARD)
-    status: StatusRoom = Field(default=StatusRoom.AVAILABLE)
+    type_room: str = Field(default=TypeRoom.STANDARD.value)
+    status: str = Field(default=StatusRoom.AVAILABLE.value)
     
     # Relación muchos a muchos
-    bookings: List["Booking"] = Relationship(
-        back_populates="rooms", 
+    bookings: List['Booking'] = Relationship(
+        back_populates='rooms', 
         link_model=booking_mod.BookingRoom
     )
 
@@ -66,4 +66,4 @@ class RoomResponse(SQLModel):
     image: str
     type_room: TypeRoom
     status: StatusRoom
-    model_config = {"from_attributes": True}
+    model_config = {'from_attributes': True}

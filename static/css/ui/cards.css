@@ -23,7 +23,7 @@
 }
 
 .room-badge {
-     position: absolute;
+    position: absolute;
     top: 10px;
     left: 10px;
 
@@ -55,6 +55,19 @@
     font-size: 1.8rem;
     font-weight: 800;
     color: var(--primary-color);
+}
+
+.room-buttons {
+    display: flex;           /* pone los hijos en fila */
+    gap: 10px;               /* espacio entre botones */
+    justify-content: flex-start; /* alineación horizontal (opcional) */
+    align-items: center;     /* alineación vertical (opcional) */
+}
+
+.room-buttons button {
+    display: inline-block;
+    margin-right: 10px; /* espacio entre botones */
+    padding: 10px;
 }
 
 /* RESPONSIVO: Evita que el texto se aplaste */

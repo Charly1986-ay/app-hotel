@@ -20,14 +20,17 @@
                 <article class="hotel-post">
                     <div class="room-image">
                         <img src="{{ url_for('static', path='img/' ~ room.image) }}" alt="Habitación Executive">
-                        <span class="room-badge">{{ room.type_room.value | upper}}</span>
+                        <span class="room-badge">{{ room.type_room | upper}}</span>
                     </div>
                     <div class="room-content">
                         <div class="room-price">
                             <span class="price-amount">USD {{ room.price }}</span>
                             <span class="price-night">/ noche</span>
-                        </div>
-                        <button class="btn-secondary">Ver Detalles</button>
+                        </div>                                                
+                    </div>
+                    <div class="room-buttons">
+                        <button class="btn btn-outline">Ver Detalles</button>
+                        <button class="btn btn-outline">Reservar</button>
                     </div>
                 </article>
             {% endfor %}
