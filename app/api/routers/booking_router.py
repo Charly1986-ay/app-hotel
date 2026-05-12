@@ -5,22 +5,24 @@ from fastapi.routing import APIRouter
 from app.dependencies.db_deps import DBSession
 from app.core.jinja import templates
 from app.models.room import RoomResponse
+#from app.services import booking_services as services
 from app.repository.booking_repository import BookingRepository
 
 
 router = APIRouter()
 
 @router.get('/', name='index', response_model=RoomResponse, status_code=status.HTTP_200_OK)
-def get_index(request: Request, db: DBSession):
-    booking_repository = BookingRepository(db=db)
+def get_index(request: Request, db: DBSession):    
+    repo = BookingRepository(db=db)
     today = date.today()
 
     return templates.TemplateResponse(
         request=request, 
         name='index.html',
-        context={"rooms": booking_repository.get_all_available_rooms(
+        context={"rooms": repo.get_all_available_rooms(
                 start=today,
-                end=today  
+                end=today,
+                db=db  
             )
         }
     )

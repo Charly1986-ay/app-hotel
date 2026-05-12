@@ -1,10 +1,11 @@
 from sqlmodel import col, select, Session
 
-from app.models.booking import Booking, BookingRoom
+from app.models.booking import Booking, BookingCreate, BookingRoom
 
 from datetime import date
 
 from app.models.room import Room
+from app.models.transaction import Transaction
 
 class BookingRepository:
     def __init__(self, db: Session):
@@ -54,12 +55,13 @@ class BookingRepository:
         return self.db.exec(statement).all()
     
 
-    def create(self, booking: Booking) -> Booking:
-        self.db.add(booking)
-        self.db.flush()
-        #self.db.commit()
-        self.db.refresh(booking)
-        return booking
+    def save_all(self, booking_obj: Booking, transaction_obj: Transaction) -> Booking:
+        # El repositorio solo se asegura que los objetos entren a la DB
+        self.db.add(booking_obj)
+        self.db.add(transaction_obj)
+        self.db.commit()
+        self.db.refresh(booking_obj)
+        return booking_obj
     
 
     def update(self, booking: Booking, updates: dict) -> Booking:        

@@ -1,4 +1,3 @@
-from decimal import Decimal
 from enum import Enum
 from typing import TYPE_CHECKING, List, Optional
 
@@ -29,7 +28,7 @@ class Room(SQLModel, table=True):
     # ge → mínimo permitido (inclusive), le → máximo permitido (inclusive)
     bed_count: int = Field(default=1, ge=1, le=3) # cantidad de camas
     max_capacity: int = Field(default=1, ge=1, le=4) # capacidad maxima
-    price: Decimal = Field(default=0, max_digits=10, decimal_places=2)
+    price: int = Field(default=0)
     image: str = Field(default=None, min_length=1, max_length=150)
     type_room: str = Field(default=TypeRoom.STANDARD.value)
     status: str = Field(default=StatusRoom.AVAILABLE.value)
@@ -44,7 +43,7 @@ class Room(SQLModel, table=True):
 class RoomCreate(SQLModel):
     bed_count: int
     max_capacity: int
-    price: Decimal
+    price: int
     image: str
     type_room: TypeRoom = TypeRoom.STANDARD
     status: StatusRoom = StatusRoom.AVAILABLE
@@ -53,7 +52,7 @@ class RoomCreate(SQLModel):
 class RoomUpdate(SQLModel):
     bed_count: Optional[int] = None
     max_capacity: Optional[int] = None
-    price: Optional[Decimal] = None
+    price: Optional[int] = None
     type_room: Optional[TypeRoom] = None
     status: Optional[StatusRoom] = None
 
@@ -62,7 +61,7 @@ class RoomResponse(SQLModel):
     id: int
     bed_count: int
     max_capacity: int
-    price: Decimal
+    price: int
     image: str
     type_room: TypeRoom
     status: StatusRoom

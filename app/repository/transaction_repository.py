@@ -1,41 +1,41 @@
 from sqlmodel import select, Session
 
-from app.models.transaction import Transaction
+from app.models.payment import Payment
 
 from datetime import date
 
-class TransactionRepository:
+class PaymentRepository:
     def __init__(self, db: Session):
         self.db = db
 
 
-    def get(self, transaction_id: int) -> Transaction | None:
-        return self.db.get(Transaction, transaction_id)
+    def get(self, payment_id: int) -> Payment | None:
+        return self.db.get(Payment, payment_id)
     
     
-    def get_check_in(self, check_in: date) -> Transaction | None:
+    def get_check_in(self, check_in: date) -> Payment | None:
         return self.db.exec(
-            select(Transaction).where(Transaction.check_in == check_in)).all()
+            select(Payment).where(Payment.check_in == check_in)).all()
     
 
-    def get_check_out(self, check_out: date) -> Transaction | None:
+    def get_check_out(self, check_out: date) -> Payment | None:
         return self.db.exec(
-            select(Transaction).where(Transaction.check_out == check_out)).all()
+            select(Payment).where(Payment.check_out == check_out)).all()
     
 
-    def create(self, transaction: Transaction) -> Transaction:
-        self.db.add(transaction)
+    def create(self, payment: Payment) -> Payment:
+        self.db.add(payment)
         self.db.flush()
         #self.db.commit()
-        self.db.refresh(transaction)
-        return transaction
+        self.db.refresh(payment)
+        return payment
     
 
-    def update(self, transaction: Transaction, updates: dict) -> Transaction:        
+    def update(self, payment: Payment, updates: dict) -> Payment:        
         for key, value in updates.items():
-            setattr(transaction, key, value)
+            setattr(payment, key, value)
 
-        self.db.add(transaction)
+        self.db.add(payment)
         self.db.commit()
-        self.db.refresh(transaction)
-        return transaction
+        self.db.refresh(payment)
+        return payment

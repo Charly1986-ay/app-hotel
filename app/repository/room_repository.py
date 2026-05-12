@@ -1,4 +1,4 @@
-from sqlmodel import select, Session
+from sqlmodel import col, select, Session
 
 from app.models.room import Room, TypeRoom
 
@@ -13,6 +13,11 @@ class RoomRepository:
     
     def get_all(self) -> list[Room] | None:
         return self.db.exec(select(Room)).all()
+    
+    
+    def get_by_ids(self, ids: list[int]) -> list[Room]:
+        statement = select(Room).where(col(Room.id).in_(ids))        
+        return self.db.exec(statement).all()
     
     
     def get_by_type_room(self, room_type: TypeRoom) -> Room | None:

@@ -1,8 +1,12 @@
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional
+from typing import TYPE_CHECKING, List, Optional
 
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from app.models.booking import Booking
+    from app.models.payment import Payment
 
 
 class UserStatus(str, Enum):
@@ -31,6 +35,8 @@ class User(SQLModel, table=True):
     )
     status: str = Field(default=UserStatus.ACTIVE.value)
 
+    bookings: List["Booking"] = Relationship(back_populates="user")
+    payments: List["Payment"] = Relationship(back_populates="user")
 
 class UserCreate(SQLModel):
     email: str
