@@ -1,0 +1,71 @@
+/* ======================================
+   PAYMENT FORM
+====================================== */
+
+.auth-options {
+    gap: 15px;
+    align-items: flex-start;
+    margin-top: 0;
+}
+
+.auth-options .form-group {
+    width: 100%;
+}
+
+/* ======================================
+   INPUT NUMBER
+====================================== */
+
+.form-group input[type="number"]::-webkit-inner-spin-button,
+.form-group input[type="number"]::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+.form-group input[type="number"] {
+    appearance: textfield;
+}
+
+/* ======================================
+   SUCCESS MESSAGE
+====================================== */
+
+.success-message {
+    display: none;
+    margin-top: 25px;
+    border-top: none;
+    padding-top: 0;
+    color: #16a34a;
+    font-weight: 700;
+    animation: fadeIn 0.3s ease;
+}
+
+/* ======================================
+   ERROR STATE
+====================================== */
+
+.form-group input.input-error {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+}
+
+/* ======================================
+   HOVER INPUT
+====================================== */
+
+.form-group input:hover {
+    border-color: var(--primary-color);
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media (max-width: 768px) {
+
+    .auth-options {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+}

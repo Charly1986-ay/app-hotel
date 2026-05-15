@@ -3,6 +3,9 @@
 @import './base/reset.css';
 @import './base/variables.css';
 
+/*         Components          */
+@import './components/modal-cart.css';
+
 /*              UI             */
 @import './ui/button.css';
 @import './ui/spinner.css';

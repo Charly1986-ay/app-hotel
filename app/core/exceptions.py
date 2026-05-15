@@ -44,3 +44,21 @@ class UserNotFound(HTTPException):
             status_code=status.HTTP_404_NOT_FOUND, 
             detail=detail
     )
+        
+
+class PaymentException(HTTPException):
+    """Excepción lanzada cuando el pago no pudo ser realizado."""
+    def __init__(self, detail: str = "El pago no pudo ser realizado. Verifique los datos"):
+        super().__init__(
+            status_code=status.HTTP_402_PAYMENT_REQUIRED, 
+            detail=detail
+    )
+        
+
+class RoomNotFound(HTTPException):
+    """Excepción lanzada cuando no encuentra habitaciones en la base de datos."""
+    def __init__(self, detail: str = "Habitaciones inválidas o no encontradas"):
+        super().__init__(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail=detail
+    )

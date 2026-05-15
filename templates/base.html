@@ -18,11 +18,28 @@
         {% block content %}{% endblock %}            
     </div>
 
+    <!-- Modal Carrito -->
+    <div id="modalProducts" class="modal">
+        <div class="modal-container">
+            <span class="close">&times;</span>
+            <h2>Habitaciones</h2>
+
+            <!-- Aquí se agregan los items -->
+            <div id="cartItems"></div>
+
+            <div class="cart-total">
+                <strong id="itemsTotal">Total: $0</strong>
+            </div>
+            <button id="checkoutBtn" class="cart-btn">Pagar</button>
+        </div>
+    </div>
+
     <!-- FOOTER MODULAR -->
     {% include 'includes/_footer.html' %}
 
     <!-- JS -->    
     <script src="{{ url_for('static', path='js/header.js') }}"></script>
+    <script src="{{ url_for('static', path='js/modal-cart.js') }}"></script>
     {% block script %}{% endblock %}
 </body>
 </html>

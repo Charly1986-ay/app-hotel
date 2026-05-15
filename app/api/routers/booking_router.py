@@ -21,12 +21,19 @@ def get_index(request: Request, db: DBSession):
         name='index.html',
         context={"rooms": repo.get_all_available_rooms(
                 start=today,
-                end=today,
-                db=db  
+                end=today                
             )
         }
     )
 
-@router.post('/reserve', response_model=RoomResponse, status_code=status.HTTP_201_CREATED)
+@router.get('/payment', name='booking')
+def get_payment_template(request: Request):
+    return templates.TemplateResponse(
+        request=request, 
+        name='payment.html'        
+    )
+
+
+@router.post('/booking', response_model=RoomResponse, status_code=status.HTTP_201_CREATED)
 def create_booking(request: Request, db: DBSession):
     pass

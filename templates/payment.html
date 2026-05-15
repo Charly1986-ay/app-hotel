@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/pages/auth.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='css/pages/payment.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+            <h2>Pago Seguro</h2>
+            <p>Ingrese los datos de su tarjeta</p>
+        </div>
+
+        <form class="auth-form" id="paymentForm">
+
+            <!-- TITULAR -->
+            <div class="form-group">
+                <label for="cardHolder">
+                    Nombre del titular
+                </label>
+
+                <input type="text" id="cardHolder" placeholder="Juan Pérez" required>
+            </div>
+
+            <!-- NÚMERO TARJETA -->
+            <div class="form-group">
+                <label for="cardNumber">
+                    Número de tarjeta
+                </label>
+
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+            </div>
+
+            <!-- FILA -->
+            <div class="payment-row">
+
+                <!-- FECHA -->
+                <div class="form-group">
+                    <label for="expiryDate">
+                        Vencimiento
+                    </label>
+
+                    <input type="text" id="expiryDate" placeholder="MM/AA" maxlength="5" required>
+                </div>
+
+                <!-- CVV -->
+                <div class="form-group">
+                    <label for="cvv">
+                        CVV
+                    </label>
+
+                    <input type="password" id="cvv" placeholder="123" maxlength="4" required>
+                </div>
+
+            </div>
+
+            <!-- MONTO -->
+            <div class="form-group">
+                <label for="amount">
+                    Monto
+                </label>
+
+                <input type="number" id="amount" placeholder="$0.00" required>
+            </div>
+
+            <!-- BOTÓN -->
+            <button type="submit" class="btn-submit">
+                Realizar Pago
+            </button>
+
+            <!-- MENSAJE -->
+            <div class="success-message" id="successMsg">
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', path='js/payment.js') }}"></script>
+{% endblock %}

@@ -13,15 +13,22 @@ class PaymentStatus(str, Enum):
     COMPLETED = 'completed'
     FAILED = 'failed'
 
+class TypeCurrency(str, Enum):
+    USD = 'usd'
+    EUR = 'eur'
+    AR = 'ar'
+
 
 class Payment(SQLModel, table=True):
     __tablename__ = 'payment'
+    __table_args__ = {'extend_existing': True}
     
     id: Optional[int] = Field(default=None, primary_key=True)    
     user_id: int = Field(foreign_key='user.id', index=True)
-    booking_id: int = Field(foreign_key='booking.id', index=True)   
+    booking_id: Optional[int] = Field(default=None, foreign_key='booking.id', index=True)  
     # Dinero (En centavos) 
-    amount: int = Field(default=0)           
+    amount: int = Field(default=0)   
+    currency: str = Field(default=TypeCurrency.USD.value)       
     stripe_payment_intent_id: str = Field(unique=True, index=True)
     #stripe_client_secret: Optional[str] = None  
     status: str = Field(default=PaymentStatus.PENDING.value)  
@@ -38,9 +45,10 @@ class Payment(SQLModel, table=True):
 class PaymentCreate(SQLModel):
     user_id: int
     booking_id: int
-    amount: int    
+    amount: int   
+    currency: str = TypeCurrency.USD 
     stripe_payment_intent_id: str
-    status: str = PaymentStatus.PENDING.value
+    status: str = PaymentStatus.PENDING
 
 
 class PaymentResponse(SQLModel):
@@ -48,6 +56,7 @@ class PaymentResponse(SQLModel):
     user_id: int
     booking_id: int
     amount: int
+    currency: str
     status: str
     created_at: datetime    
     model_config = {'from_attributes': True}

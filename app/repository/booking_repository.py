@@ -5,7 +5,7 @@ from app.models.booking import Booking, BookingCreate, BookingRoom
 from datetime import date
 
 from app.models.room import Room
-from app.models.transaction import Transaction
+from app.models.payment import Payment
 
 class BookingRepository:
     def __init__(self, db: Session):
@@ -55,13 +55,20 @@ class BookingRepository:
         return self.db.exec(statement).all()
     
 
-    def save_all(self, booking_obj: Booking, transaction_obj: Transaction) -> Booking:
-        # El repositorio solo se asegura que los objetos entren a la DB
-        self.db.add(booking_obj)
-        self.db.add(transaction_obj)
-        self.db.commit()
-        self.db.refresh(booking_obj)
-        return booking_obj
+    def save_all(self, booking_obj: Booking, payment_obj: Payment) -> Booking:
+        try:
+            self.db.add(booking_obj)
+            self.db.flush() # Esto genera el ID de la reserva sin cerrar la transacción
+            
+            payment_obj.booking_id = booking_obj.id # Asignamos el ID generado
+            self.db.add(payment_obj)
+            
+            self.db.commit() # Guardamos ambos o nada
+            self.db.refresh(booking_obj)
+            return booking_obj
+        except Exception as e:
+            self.db.rollback() # Si algo falla, limpiamos la DB
+            raise e
     
 
     def update(self, booking: Booking, updates: dict) -> Booking:        
