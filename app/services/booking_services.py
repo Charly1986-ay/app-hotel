@@ -3,7 +3,7 @@ from datetime import date
 from sqlmodel import Session
 
 from app.models.booking import Booking, BookingCreate
-from app.models.payment import Payment, PaymentCreate, PaymentStatus
+from app.models.payment import Payment, PaymentStatus
 from app.repository.booking_repository import BookingRepository
 from app.repository.room_repository import RoomRepository
 

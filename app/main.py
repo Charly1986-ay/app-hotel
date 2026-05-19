@@ -22,21 +22,23 @@ async def lifespan(app: FastAPI):
 
     scheduler = BackgroundScheduler(timezone="America/Argentina/Buenos_Aires")
     
-    # tarea 1 => check-out JOB (00.10hs)
+    # tarea 1 => check-out JOB (10.00hs)
     scheduler.add_job(
         check_out_job,
         trigger='cron',
-        hour=00,
-        minute=10,
-        id="checkout_daily"
+        hour=10,
+        minute=00,
+        id="checkout_daily",
+        replace_existing=True
     )
-    # tarea 2 => check-IN JOB (23.40hs)
+    # tarea 2 => check-IN JOB (12.00hs)
     scheduler.add_job(
         check_in_job,
         trigger='cron',
-        hour=00,
-        minute=20,
-        id="checkin_daily"
+        hour=12,
+        minute=00,
+        id="checkin_daily",
+        replace_existing=True
     )
     scheduler.start()
     print("Scheduler iniciado....")
