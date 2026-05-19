@@ -1,128 +1,191 @@
-const deleteRoom = (index) => {
-    let roomsStorage = JSON.parse(localStorage.getItem('rooms'));
+document.addEventListener("DOMContentLoaded", () => {
 
-    // Eliminar room del indice
-    roomsStorage.splice(index, 1);
+    /* =========================
+       MODAL
+    ========================= */
 
-    // Actualizar el array del localStorage
-    localStorage.setItem('rooms', JSON.stringify(roomsStorage));
+    const modal = document.getElementById("modalRooms");
+    const openCart = document.getElementById("openCart");
+    const closeBtn = document.querySelector(".close");
 
-    // Mostrar el listado
-    showCart();
-}
-
-const showCart = () => {
-    const rooms = document.querySelector('#cartItems');
-    rooms.innerHTML = '';
-
-    let roomsStorage = JSON.parse(localStorage.getItem('rooms')) || [];
-
-    if (roomsStorage.length === 0) {
-        rooms.innerHTML = 'No hay habitaciones seleccionadas.';
-        return false;
+    function openModal() {
+        if (!modal) return;
+        modal.style.display = "block";
     }
 
-    roomsStorage.forEach((room, index) => {
-        let divItem = document.createElement('div');
-        divItem.classList.add('cartItem');
+    function closeModal() {
+        if (!modal) return;
+        modal.style.display = "none";
+    }
 
-        divItem.dataset.roomType = room.roomType;
-        divItem.dataset.price = room.price;
+    /* BOTÓN CARRO (HEADER) */
+    if (openCart) {
+        openCart.addEventListener("click", (e) => {
+            e.preventDefault();
+            showCart();   // refresca antes de abrir
+            openModal();
+        });
+    }
 
-        divItem.innerHTML = `
-            <span class="room-type">${room.roomType}</span>        
-            <span class="cart-price-room">${room.price}</span>            
-        `;
+    /* BOTÓN CERRAR */
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeModal);
+    }
 
-        const btnDelete = document.createElement('button');    
-        
-        btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>';
-        
-        btnDelete.addEventListener('click', () => deleteRoom(index)); 
-
-        divItem.appendChild(btnDelete);        
-
-        rooms.appendChild(divItem);
+    /* CLICK FUERA */
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
     });
 
-    updateTotal();
 
-    return true;
-}
+    /* =========================
+        CARRITO (TU LÓGICA)
+    ========================= */
 
+    const deleteRoom = (index) => {
+        let roomsStorage = JSON.parse(localStorage.getItem('rooms')) || [];
 
-const updateTotal = () => {
-    let roomsStorage = JSON.parse(localStorage.getItem('rooms'));
-    let total = 0;
+        roomsStorage.splice(index, 1);
 
-    roomsStorage.forEach(room => {
-        total += room.price;
-    });
+        localStorage.setItem('rooms', JSON.stringify(roomsStorage));
 
-    document.querySelector('#itemsTotal').textContent = `
-        Total: ${total} USD
-    `;
-}
+        showCart();
+    };
 
+    const showCart = () => {
+        const rooms = document.querySelector('#cartItems');
+        if (!rooms) return;
 
-const saveRoom = (priceStr, roomType, roomId) => {
-    let price = parseInt(priceStr);
-    let id = parseInt(roomId);
+        rooms.innerHTML = '';
 
-    if (isNaN(price) || price <= 0) {
-        console.log("No es un número válido");
-        return
+        let roomsStorage = JSON.parse(localStorage.getItem('rooms')) || [];
+
+        if (roomsStorage.length === 0) {
+            rooms.innerHTML = 'No hay habitaciones seleccionadas.';
+            updateTotal();
+            return false;
+        }
+
+        roomsStorage.forEach((room, index) => {
+
+            let divItem = document.createElement('div');
+            divItem.classList.add('cart-item'); // FIX CSS
+
+            divItem.innerHTML = `
+                <span class="room-type">${room.roomType}</span>
+                <span class="cart-price-room">${room.price} USD</span>
+            `;
+
+            const btnDelete = document.createElement('button');
+            btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            //btnDelete.classList.add('remove-item');
+
+            btnDelete.addEventListener('click', () => deleteRoom(index));
+
+            divItem.appendChild(btnDelete);
+            rooms.appendChild(divItem);
+        });
+
+        updateTotal();
+        return true;
+    };
+
+    const getTotal = () => {
+        let roomsStorage = JSON.parse(localStorage.getItem('rooms')) || [];
+
+        let total = 0;
+
+        roomsStorage.forEach(room => {
+            total += Number(room.price);
+        });
+
+        return total;
     }
 
-    if (isNaN(id) || id <= 0) {
-        console.log("No es un número válido");
-        return
-    }
+    const updateTotal = () => {
+        let total = getTotal();
 
-    let roomObject = {
-        roomId: id,
-        roomType: roomType,
-        price: price,
-    }
+        const totalEl = document.querySelector('#itemsTotal');
 
-    console.log(roomObject)
+        if (totalEl) {
+            totalEl.textContent = `Total: ${total} USD`;
+        }
+    };
 
-    // Sacar todas las habitaciones guardadas
-    let roomsStorage = JSON.parse(localStorage.getItem('rooms'));
+    const saveRoom = (priceStr, roomType, roomId) => {
 
-    if (!roomsStorage) {
-        // No hay habitaciones guardadas
-        roomsStorage = [];
-    }
-    roomsStorage.push(roomObject);
+        let price = parseInt(priceStr);
+        let id = parseInt(roomId);
 
-    // Almacenamos en el localstorage
-    localStorage.setItem('rooms', JSON.stringify(roomsStorage));
+        if (isNaN(price) || price <= 0) return;
+        if (isNaN(id) || id <= 0) return;
 
-    showCart();
+        let roomObject = {
+            roomId: id,
+            roomType: roomType,
+            price: price,
+        };
 
-    return true;
-}
+        let roomsStorage = JSON.parse(localStorage.getItem('rooms')) || [];
+
+        roomsStorage.push(roomObject);
+
+        localStorage.setItem('rooms', JSON.stringify(roomsStorage));
+
+        showCart();
+        openModal(); // abre modal al reservar
+    };
 
 
-window.addEventListener('load', (event) => {
-    // cargamos las habitaciones
-    showCart();
+    /* =========================
+       BOTONES RESERVA
+    ========================= */
 
-    const btnBookings = document.querySelectorAll('.btn-booking');    
+    const btnBookings = document.querySelectorAll('.btn-booking');
 
     btnBookings.forEach(btn => {
         btn.addEventListener('click', (event) => {
-            // Obtiene el article contenedor del botón
+
             const divArticle = event.target.closest('article');
 
             let room = divArticle.querySelector('.room-badge').textContent;
 
-            let priceStr = divArticle.querySelector('.price-amount').textContent.substring(4);
-            
+            let priceStr = divArticle
+                .querySelector('.price-amount')
+                .textContent
+                .substring(4);
+
             const roomId = btn.dataset.roomId;
-            
+
             saveRoom(priceStr, room, roomId);
         });
     });
-}); 
+
+    const btnCartPayment = document.querySelector('#btn-cart-payment');
+    btnCartPayment.addEventListener('click', (event) => {        
+        closeModal();
+        
+        let checkin = document.querySelector('#checkin').value;
+        let checkout = document.querySelector('#checkout').value;
+        let total = getTotal();
+
+        let objBooking = {
+            checkin,
+            checkout,
+            total
+        };
+
+        localStorage.setItem('booking', JSON.stringify(objBooking));
+        window.location = '/payment';
+    });
+
+
+    /* =========================
+       INIT
+    ========================= */
+
+    showCart();
+
+});

@@ -1,3 +1,5 @@
+from datetime import date
+
 from sqlmodel import Session
 
 from app.models.booking import Booking, BookingCreate
@@ -17,29 +19,32 @@ class BookingServices:
     def create_reservation(
             self, 
             booking: BookingCreate, 
-            payment: PaymentCreate, 
+            #payment: PaymentCreate, 
             type_card: str, 
-            card: str
+            token_id: str,
+            currency: str
     ):
         # 1. Validar que existan IDs de habitaciones
         if not booking.room_ids:
             raise RoomNotFound()
         
         total = 0
+        rooms_to_assign = []
 
         # calculamos la reserva
         for room_id in booking.room_ids:
             room = self.room_repository.get(room_id=room_id)  
             if not room:
                 raise RoomNotFound()         
-            total += room.price        
+            total += room.price
+            rooms_to_assign.append(room)        
 
         # creamos el stripe services
         payment_intent = create_payment(
-            amount=total,
-            currency=payment.currency,
-            type_card=type_card,
-            card = card
+            amount = total,
+            currency = currency,
+            type_card = type_card,
+            card = {'token': token_id}
         )
 
         if payment_intent is None:
@@ -50,7 +55,8 @@ class BookingServices:
             booking_db = Booking(
                 check_in = booking.check_in,
                 check_out = booking.check_out,
-                user_id = booking.user_id
+                user_id = booking.user_id,
+                rooms = rooms_to_assign
             )
 
             # instanceamos el pago
@@ -58,7 +64,7 @@ class BookingServices:
                 user_id = booking.user_id,
                 booking_id = booking_db,
                 amount = total,
-                currency = payment.currency,
+                currency = currency,
                 stripe_payment_intent_id = payment_intent.id,
                 status = PaymentStatus.COMPLETED
             )
@@ -67,3 +73,10 @@ class BookingServices:
                 booking_obj=booking_db, 
                 payment_obj=payment_db
             )
+    
+
+    def get_all_available_rooms_services(self, start: date, end: date):
+        return self.booking_repository.get_all_available_rooms(
+            start=start,
+            end=end
+        )

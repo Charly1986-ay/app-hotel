@@ -18,62 +18,41 @@
 
         <form class="auth-form" id="paymentForm">
 
-            <!-- TITULAR -->
+            <!-- TITULAR (Se queda igual) -->
             <div class="form-group">
                 <label for="cardHolder">
                     Nombre del titular
                 </label>
-
-                <input type="text" id="cardHolder" placeholder="Juan Pérez" required>
+                <input type="text" id="cardHolder" name="cardHolder" placeholder="Juan Pérez" required>
             </div>
 
-            <!-- NÚMERO TARJETA -->
+            <!-- CAMBIO CRÍTICO AQUÍ: 
+                 Reemplazamos los inputs individuales de Tarjeta, Vencimiento y CVV 
+                 por el contenedor oficial donde Stripe inyectará su input seguro todo-en-uno -->
             <div class="form-group">
-                <label for="cardNumber">
-                    Número de tarjeta
+                <label for="card-element">
+                    Datos de la tarjeta (Número, Vencimiento y CVC)
                 </label>
-
-                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                <!-- El contenedor de Stripe -->
+                <div id="card-element" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;"></div>
+                <!-- Contenedor opcional para mostrar errores de la tarjeta en tiempo real -->
+                <div id="card-errors" role="alert" style="color: #dc3545; font-size: 14px; margin-top: 5px;"></div>
             </div>
 
-            <!-- FILA -->
-            <div class="payment-row">
-
-                <!-- FECHA -->
-                <div class="form-group">
-                    <label for="expiryDate">
-                        Vencimiento
-                    </label>
-
-                    <input type="text" id="expiryDate" placeholder="MM/AA" maxlength="5" required>
-                </div>
-
-                <!-- CVV -->
-                <div class="form-group">
-                    <label for="cvv">
-                        CVV
-                    </label>
-
-                    <input type="password" id="cvv" placeholder="123" maxlength="4" required>
-                </div>
-
-            </div>
-
-            <!-- MONTO -->
+            <!-- MONTO (Se queda igual) -->
             <div class="form-group">
                 <label for="amount">
                     Monto
                 </label>
-
                 <input type="number" id="amount" placeholder="$0.00" required>
             </div>
 
-            <!-- BOTÓN -->
+            <!-- BOTÓN (Se queda igual) -->
             <button type="submit" class="btn-submit">
                 Realizar Pago
             </button>
 
-            <!-- MENSAJE -->
+            <!-- MENSAJE (Se queda igual) -->
             <div class="success-message" id="successMsg">
             </div>
 
@@ -86,5 +65,7 @@
 {% endblock %}
 
 {% block script %}
+<!-- Cargamos Stripe v3 (Ya lo tenías bien) -->
+<script src="https://js.stripe.com/v3/"></script>
 <script src="{{ url_for('static', path='js/payment.js') }}"></script>
 {% endblock %}

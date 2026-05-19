@@ -42,7 +42,7 @@ class BookingCreate(SQLModel):
     check_out: date  
     user_id: int
     status: StatusBooking = StatusBooking.CONFIRMED
-    room_ids: List[int]  # <--- Fundamental para recibir los IDs desde el frontend/API
+    room_ids: List[int]
 
 
 class BookingUpdate(SQLModel):    

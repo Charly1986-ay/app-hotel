@@ -1,23 +1,34 @@
-window.addEventListener('load', (event) => {
-    let email = document.querySelector('#email');
-    let password = document.querySelector('#password');
+window.addEventListener('load', () => {
 
     const form = document.querySelector('.auth-form');
+
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const data = new FormData(form);
 
         try {
-            const response = await fetch('auth/login', {
+
+            const response = await fetch('/auth/login', {
                 method: 'POST',
-                body: data
+                body: data,
+                credentials: 'include'
             });
 
-            const json = response.json();
+            const json = await response.json();
+
             console.log(json);
+
+            if (!response.ok) {
+                alert(json.detail || 'Error de autenticación');
+                return;
+            }
+
+            // redirect ejemplo
+            window.location.href = "/";
+
         } catch (error) {
-            console.error("Error al obtener el JSON:", error);
+            console.error("Error:", error);
         }
     });
 });

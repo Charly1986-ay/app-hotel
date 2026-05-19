@@ -38,7 +38,7 @@ def login(
             key="access_token",
             value=token_data.access_token,
             httponly=True,
-            secure=True,
+            secure=False, #=> True solo para produccion
             samesite="lax"
         )
         return token_data     

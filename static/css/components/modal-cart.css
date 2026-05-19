@@ -1,0 +1,217 @@
+/* =========================
+   MODAL CARRITO
+========================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Caja principal */
+.modal-container {
+    background-color: var(--bg-pure);
+    width: 100%;
+    max-width: 500px;
+
+    margin: auto;
+    margin-top: 5vh;
+
+    padding: 45px;
+    border-radius: 20px;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+
+    animation: modalAppear 0.35s ease;
+
+    position: relative;
+}
+
+/* Header */
+.modal-container h2 {
+    color: var(--text-title);
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Botón cerrar */
+.close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+
+    color: var(--text-muted);
+    font-size: 1.8rem;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.close:hover {
+    color: var(--primary-color);
+    transform: scale(1.08);
+}
+
+/* =========================
+   ITEMS DEL CARRITO
+========================= */
+
+#cartItems {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    max-height: 350px;
+    overflow-y: auto;
+
+    padding-right: 5px;
+}
+
+/* Scroll */
+#cartItems::-webkit-scrollbar {
+    width: 6px;
+}
+
+#cartItems::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+    border-radius: 20px;
+}
+
+/* Item */
+.cart-item {
+    background-color: var(--input-bg);
+
+    border: 1px solid var(--input-border);
+    border-radius: 14px;
+
+    padding: 18px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    transition: all 0.25s ease;
+}
+
+.cart-item:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Info item */
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cart-item-title {
+    color: var(--text-title);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.cart-item-price {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+.cart-total {
+    margin-top: 28px;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--bg-main);
+
+    text-align: right;
+}
+
+#itemsTotal {
+    color: var(--text-title);
+    font-size: 1.3rem;
+}
+
+/* =========================
+   BOTÓN PAGAR
+========================= */
+
+.cart-btn {
+    width: 100%;
+
+    margin-top: 25px;
+
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+
+    padding: 16px;
+
+    border: none;
+    border-radius: 12px;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.cart-btn:hover {
+    background-color: var(--btn-hover-bg);
+    transform: translateY(-2px);
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .modal-container {
+        padding: 30px 24px;
+    }
+
+    .modal-container h2 {
+        font-size: 1.6rem;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    #itemsTotal {
+        font-size: 1.1rem;
+    }
+}

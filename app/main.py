@@ -12,6 +12,7 @@ from app.api.routers import user_router
 from app.core.config import settings
 from app.core.db import init_db
 from app.core.tasks import check_in_job, check_out_job
+from app.middleware.aut_middleware import auth_middleware
 
 load_dotenv()
 
@@ -21,20 +22,20 @@ async def lifespan(app: FastAPI):
 
     scheduler = BackgroundScheduler(timezone="America/Argentina/Buenos_Aires")
     
-    # tarea 1 => check-out JOB (15.50hs)
+    # tarea 1 => check-out JOB (00.10hs)
     scheduler.add_job(
         check_out_job,
         trigger='cron',
-        hour=16,
-        minute=24,
+        hour=00,
+        minute=10,
         id="checkout_daily"
     )
-    # tarea 2 => check-IN JOB (17.55hs)
+    # tarea 2 => check-IN JOB (23.40hs)
     scheduler.add_job(
         check_in_job,
         trigger='cron',
-        hour=16,
-        minute=26,
+        hour=00,
+        minute=20,
         id="checkin_daily"
     )
     scheduler.start()
@@ -49,6 +50,9 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     lifespan=lifespan,
 )
+
+app.middleware("http")(auth_middleware)
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(booking_router.router)
