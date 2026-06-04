@@ -6,8 +6,7 @@
         <span><i class="fa-solid fa-clock"></i> Check-out: <strong>10:00 a.m.</strong></span>
     </div>
 
-    <form action="" method="GET" class="booking-form">
-
+    <form class="booking-form" method="get">
         <!-- Entrada / Salida -->
         <div class="form-group">
             <label for="checkin" class="form-label">
@@ -30,34 +29,7 @@
             </label>
         </div>
 
-        <div id="rooms-container" class="rooms-container">
-
-            <div class="room-row" data-room-index="1">           
-
-                <div class="room-spinners">
-                    <!-- Adultos -->
-                    <div class="guest-spinner-group">
-                        <span class="spinner-label">Adultos</span>
-                        <div class="spinner-base">
-                            <button type="button" class="btn-outline spinner-btn dec-btn">-</button>
-                            <input type="text" name="rooms[1][adults]" class="spinner-input" value="1" readonly>
-                            <button type="button" class="btn-outline spinner-btn inc-btn">+</button>
-                        </div>
-                    </div>
-
-                    <!-- Niños -->
-                    <div class="guest-spinner-group">
-                        <span class="spinner-label">Niños</span>
-                        <div class="spinner-base">
-                            <button type="button" class="btn-outline spinner-btn dec-btn">-</button>
-                            <input type="text" name="rooms[1][children]" class="spinner-input" value="0" readonly>
-                            <button type="button" class="btn-outline spinner-btn inc-btn">+</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <div id="rooms-container" class="rooms-container"></div>
 
         <!-- Añadir Habitación -->
         <div class="add-room-wrapper">
@@ -67,9 +39,8 @@
         </div>
 
         <!-- Buscar Disponibilidad -->
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" id="btn-search-room">
             <i class="fa-solid fa-magnifying-glass"></i> Buscar Disponibilidad
         </button>
-
     </form>
 </aside>

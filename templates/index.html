@@ -7,43 +7,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="index-layout"> <!-- Este contenedor es la clave para el Flexbox -->
-    
+<div class="index-layout"> 
+
     <section class="container">
         <div class="welcome-view">
             <h1>Nuestras Habitaciones</h1>
             <p>Explora nuestra selección exclusiva de habitaciones diseñadas para brindarte la mejor experiencia de descanso.</p>
         </div>
 
-        <div class="rooms-list">            
-            {% for room in rooms %}
-                <article class="hotel-post">
-                    <div class="room-image">
-                        <img src="{{ url_for('static', path='img/' ~ room.image) }}" alt="Habitación Executive">
-                        <span class="room-badge">{{ room.type_room | upper}}</span>
-                    </div>
-                    <div class="room-content">
-                        <div class="room-price">
-                            <span class="price-amount">USD {{ room.price }}</span>
-                            <span class="price-night">/ noche</span>
-                        </div>                                                
-                    </div>
-                    <div class="room-buttons">
-                        <button class="btn btn-outline">Ver Detalles</button>
-                        <button class="btn btn-outline btn-booking" data-room-id="{{ room.id }}">Reservar</button>
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
+        <div class="rooms-list"></div>
     </section>
 
-    <!-- HEADER MODULAR -->
-    {% include 'includes/_sidebar.html' %}
+    <aside id="sidebar-container" class="sidebar"></aside>
 
 </div>
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', path='js/sidebar.js') }}"></script>
-<!-- <script src="{{ url_for('static', path='js/booking.js') }}"></script> -->
+<script type="module" src="{{ url_for('static', path='js/pages/index.js') }}"></script>
 {% endblock %}

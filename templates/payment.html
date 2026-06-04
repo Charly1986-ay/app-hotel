@@ -6,66 +6,15 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="auth-wrapper">
 
-    <div class="auth-card">
-
-        <div class="auth-header">
-            <h2>Pago Seguro</h2>
-            <p>Ingrese los datos de su tarjeta</p>
-        </div>
-
-        <form class="auth-form" id="paymentForm">
-
-            <!-- TITULAR (Se queda igual) -->
-            <div class="form-group">
-                <label for="cardHolder">
-                    Nombre del titular
-                </label>
-                <input type="text" id="cardHolder" name="cardHolder" placeholder="Juan Pérez" required>
-            </div>
-
-            <!-- CAMBIO CRÍTICO AQUÍ: 
-                 Reemplazamos los inputs individuales de Tarjeta, Vencimiento y CVV 
-                 por el contenedor oficial donde Stripe inyectará su input seguro todo-en-uno -->
-            <div class="form-group">
-                <label for="card-element">
-                    Datos de la tarjeta (Número, Vencimiento y CVC)
-                </label>
-                <!-- El contenedor de Stripe -->
-                <div id="card-element" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;"></div>
-                <!-- Contenedor opcional para mostrar errores de la tarjeta en tiempo real -->
-                <div id="card-errors" role="alert" style="color: #dc3545; font-size: 14px; margin-top: 5px;"></div>
-            </div>
-
-            <!-- MONTO (Se queda igual) -->
-            <div class="form-group">
-                <label for="amount">
-                    Monto
-                </label>
-                <input type="number" id="amount" placeholder="$0.00" required>
-            </div>
-
-            <!-- BOTÓN (Se queda igual) -->
-            <button type="submit" class="btn-submit">
-                Realizar Pago
-            </button>
-
-            <!-- MENSAJE (Se queda igual) -->
-            <div class="success-message" id="successMsg">
-            </div>
-
-        </form>
-
-    </div>
+    <div id="payment-container"></div>
 
 </div>
-
 {% endblock %}
 
 {% block script %}
-<!-- Cargamos Stripe v3 (Ya lo tenías bien) -->
 <script src="https://js.stripe.com/v3/"></script>
-<script src="{{ url_for('static', path='js/payment.js') }}"></script>
+
+<script type="module" src="{{ url_for('static', path='js/pages/payment.js') }}"></script>
 {% endblock %}

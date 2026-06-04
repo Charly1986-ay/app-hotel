@@ -38,8 +38,7 @@
     {% include 'includes/_footer.html' %}
 
     <!-- JS -->    
-    <script src="{{ url_for('static', path='js/header.js') }}"></script>
-    <script src="{{ url_for('static', path='js/modal-cart.js') }}"></script>
+    <script type="module" src="{{ url_for('static', path='js/main.js') }}"></script>    
     {% block script %}{% endblock %}
 </body>
 </html>

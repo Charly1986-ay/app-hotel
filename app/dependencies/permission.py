@@ -7,16 +7,17 @@ from app.models.user import Role, User, UserStatus
 from app.repository.user_repository import UserRepository
 
 
-def get_token_user_id(request: Request): 
-    id = request.state.user_id 
+def get_token_user_id(request: Request):
 
-    user_id = int(id)
+    user_id = getattr(request.state, "user_id", None)
 
-    #print(f'{type(user_id)} => id: {user_id}')
-    
-    if not user_id: 
-        raise CredentialsException() 
-    return user_id
+    if user_id is None:
+        raise CredentialsException()
+
+    try:
+        return int(user_id)
+    except (TypeError, ValueError):
+        raise CredentialsException()
 
 
 def get_current_user(

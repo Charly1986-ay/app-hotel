@@ -1,18 +1,16 @@
-from tkinter import S
 from typing import Annotated
 
-from fastapi import Form, HTTPException, Request, Response, status
+from fastapi import Depends, Form, HTTPException, Request, Response, status
 from fastapi.responses import HTMLResponse
 from fastapi.routing import APIRouter
-from sqlmodel import Session
 from app.core.jinja import templates
 
 from app.dependencies.db_deps import DBSession
-from app.models.user import TokenResponse, UserLogin
+from app.models.user import TokenResponse, User, UserLogin
 from app.services import auth_services as services
 
 from app.core.exceptions import UserNotFound, CredentialsException
-
+from app.dependencies.permission import get_current_user_active
 
 router = APIRouter()
 
@@ -35,11 +33,11 @@ def login(
         token_data = services.login_services(user=login_data, db=db)
         
         response.set_cookie(
-            key="access_token",
+            key='access_token',
             value=token_data.access_token,
             httponly=True,
             secure=False, #=> True solo para produccion
-            samesite="lax"
+            samesite='lax'
         )
         return token_data     
     
@@ -47,4 +45,19 @@ def login(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail='Usuario o contraseña incorrectos'
-        )      
+        )    
+
+
+@router.get('/me', status_code=status.HTTP_200_OK)
+def verify_user(user: User = Depends(get_current_user_active)):
+    '''
+        Endpoint universal de control de sesión.
+        Si la cookie es válida y el usuario existe en la DB, devuelve 200 OK.
+        Si la cookie no existe o venció, 'get_current_user_active' lanza 
+        CredentialsException (401) automáticamente antes de entrar aquí.
+    '''
+    return {
+        'authenticated': True,
+        'id': user.id,
+        'role': user.role  # Enviarlo te servirá en el frontend más adelante
+    }

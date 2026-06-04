@@ -49,6 +49,7 @@ class BookingRepository:
             .where(
                 col(Room.id).not_in(rooms_with_conflict)
             )
+            .where(Room.status == 'available')
         )
 
         # 3. Ejecución

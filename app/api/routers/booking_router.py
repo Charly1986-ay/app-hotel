@@ -1,15 +1,14 @@
 from datetime import date
-from typing import Annotated
+from typing import List
 
-from fastapi import Body, Form, HTTPException, Request, status
+from fastapi import Body, HTTPException, Query, Request, status
+
 from fastapi.routing import APIRouter
 from app.core.exceptions import PaymentException, RoomNotFound
 from app.dependencies.db_deps import DBSession
 from app.dependencies.permission import user_dependency
 from app.core.jinja import templates
-from app.core.config import settings
 from app.models.booking import BookingCreate, BookingResponse
-from app.models.payment import PaymentCreate
 from app.models.room import RoomResponse
 from app.models.user import User
 from app.services.booking_services import BookingServices
@@ -17,7 +16,7 @@ from app.services.booking_services import BookingServices
 
 router = APIRouter()
 
-@router.get('/', name='index', response_model=RoomResponse, status_code=status.HTTP_200_OK)
+""" @router.get('/', name='index', response_model=List[RoomResponse], status_code=status.HTTP_200_OK)
 def get_index(request: Request, db: DBSession):    
     services = BookingServices(db=db)
     today = date.today()
@@ -30,7 +29,37 @@ def get_index(request: Request, db: DBSession):
                 end=today                
             )
         }
+    )  """  
+
+
+@router.get('/', name='index')
+def get_index(request: Request):  
+    return templates.TemplateResponse(
+        request=request, 
+        name='index.html'
     )
+
+
+@router.get(
+        '/api/rooms', 
+        name='room_avalible', 
+        response_model=List[RoomResponse], 
+        status_code=status.HTTP_200_OK
+)
+def get_rooms_availible(
+    request: Request, 
+    db: DBSession, 
+    start: date = Query(..., alias="checkin"), 
+    end: date = Query(..., alias="checkout")
+):
+    services = BookingServices(db=db)   
+
+    return services.get_all_available_rooms_services(
+        start=start,
+        end=end
+    )
+        
+    
 
 @router.get('/payment', name='payment')
 def get_payment_template(request: Request):
@@ -53,7 +82,7 @@ def create_booking(
         user_id=user.id,
         room_ids=booking['room_ids'] 
     )
-
+    print(f'Check-in: {booking['check_in']}\nCheck-out: {booking['check_out']}')
     services = BookingServices(db=db)
 
     try:
