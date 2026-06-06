@@ -62,3 +62,12 @@ class RoomNotFound(HTTPException):
             status_code=status.HTTP_404_NOT_FOUND, 
             detail=detail
     )
+        
+
+class PriceMismatchException(HTTPException):
+    """Excepción lanzada cuando el precio de la habitaciones no coincide con la base de datos."""
+    def __init__(self, detail: str = "Precio de la habitación desactualizada"):
+        super().__init__(
+            status_code=status.HTTP_402_PAYMENT_REQUIRED, 
+            detail=detail
+    )

@@ -9,12 +9,13 @@ from app.repository.room_repository import RoomRepository
 
 from app.services.stripe_services import create_payment
 
-from app.core.exceptions import PaymentException, RoomNotFound
+from app.core.exceptions import PaymentException, PriceMismatchException, RoomNotFound
 
 class BookingServices:
     def __init__(self, db: Session):
         self.booking_repository = BookingRepository(db=db)
         self.room_repository = RoomRepository(db=db)
+
 
     def create_reservation(
             self, 
@@ -73,7 +74,7 @@ class BookingServices:
                 booking_obj=booking_db, 
                 payment_obj=payment_db
             )
-    
+        
 
     def get_all_available_rooms_services(self, start: date, end: date):
         return self.booking_repository.get_all_available_rooms(

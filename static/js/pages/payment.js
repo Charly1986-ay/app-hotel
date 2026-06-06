@@ -1,10 +1,7 @@
-console.log("payment.js cargado");
-
 import { createPaymentForm } from '../components/PaymentForm.js';
 import { BookingServices } from '../services/BookingServices.js';
 import { CartStorageServices } from '../services/CartStorageServices.js';
 import { StripeServices } from '../services/StripeServices.js';
-//import { authRequire } from './auth.js';
 
 // Helper local para empaquetar los datos del localStorage
 function getBookingLocal() {

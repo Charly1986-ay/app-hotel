@@ -69,6 +69,7 @@ def get_payment_template(request: Request):
     )
 
 
+
 @router.post('/payment', response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
 def create_booking(
     db: DBSession,
@@ -82,7 +83,7 @@ def create_booking(
         user_id=user.id,
         room_ids=booking['room_ids'] 
     )
-    print(f'Check-in: {booking['check_in']}\nCheck-out: {booking['check_out']}')
+    #print(f'Check-in: {booking['check_in']}\nCheck-out: {booking['check_out']}')
     services = BookingServices(db=db)
 
     try:

@@ -17,49 +17,13 @@ loginForm.addEventListener('submit', async (event) => {
         alert(json.detail || 'Error de autenticación');
         return;
     }
+    
+    // 1. Leemos si hay una ruta guardada por el carrito, si no hay nada, por defecto va a la home "/"
+    const redirectUrl = localStorage.getItem('redirect_after_login') || "/";
+    
+    // 2. Limpiamos la clave para no dejar basura en el navegador
+    localStorage.removeItem('redirect_after_login');
 
-    // Si todo salió bien (ej: 200 o 201), se redirige a la home
-    window.location.href = "/";
+    // 3. Redirección dinámica y fluida
+    window.location.href = redirectUrl;
 });
-
-
-export const authRequire = async () => {
-    // 1. El servicio ahora devuelve el objeto JSON o null
-    const jsonResponse = await AuthServices.checkAuth();
-
-    // 2. Si es null (no logueado / error), redirigimos y FRENAMOS el script
-    if (!jsonResponse) {
-        window.location.href = '/auth/login';
-        return; // 👈 CRUCIAL para que no intente leer el 'role' de abajo
-    }
-
-    // 3. Leemos la propiedad exacta que manda FastAPI ('role')
-    const role = jsonResponse.role;
-
-    // 4. Enrutamiento inteligente en el futuro
-    switch (role) {
-        case 'client':
-            console.log('Cliente autenticado');
-            break;
-
-        case 'receptionist':
-            console.log('Redirigido al modulo Recepcionista');
-            // window.location.href = '/recepcion';
-            break;
-
-        case 'supervisor':
-            console.log('Redirigido al modulo Supervisor');
-            // window.location.href = '/supervisor/dashboard';
-            break;
-
-        case 'manager':
-            console.log('Redirigido al modulo Manager');
-            // window.location.href = '/admin/dashboard';
-            break;
-
-        default:
-            console.log('Error, rol inexistente');
-            window.location.href = '/auth/login';
-            break;
-    }
-}

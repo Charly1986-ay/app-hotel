@@ -7,6 +7,17 @@ export const CartStorageServices = {
         if (isNaN(price) || price <= 0 || isNaN(id) || id <= 0) return false;
 
         const rooms = this.getRooms();
+
+        // 🕵️‍♂️ TEST: Mira tu consola del navegador cuando hagas click
+        console.log("ID que llega a saveRoom:", id);
+        console.log("Habitaciones actuales en el carrito:", rooms);
+
+        const roomExist = rooms.some(room => String(room.roomId) === String(id));
+
+        if (roomExist) {            
+            return false;
+        }
+
         rooms.push({ roomId: id, roomType, price });
 
         localStorage.setItem('rooms', JSON.stringify(rooms));
