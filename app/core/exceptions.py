@@ -7,7 +7,7 @@ class CredentialsException(HTTPException):
         super().__init__(
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail=detail
-    )
+    )       
         
 
 class UserInactiveException(HTTPException):
@@ -45,6 +45,12 @@ class UserNotFound(HTTPException):
             detail=detail
     )
         
+
+class EmailExistsException (HTTPException):
+    """Excepción se produce cuando el email existe en la base de datos."""
+    def __init__(self, detail: str = "Email ya existe en la base de datos"):
+        super().__init__(status_code=409, detail=detail)
+
 
 class PaymentException(HTTPException):
     """Excepción lanzada cuando el pago no pudo ser realizado."""

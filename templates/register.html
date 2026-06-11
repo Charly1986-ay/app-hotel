@@ -13,7 +13,7 @@
             <p>Únete al Hotel Triple Frontera y gestiona tus estadías</p>
         </div>
 
-        <form action="/register" method="POST" class="auth-form">
+        <form class="auth-form">
             <!-- Nombre y Apellido en dos columnas si quieres, o uno bajo otro para prolijidad -->
             <div class="form-group">
                 <label for="full_name">Nombre Completo</label>
@@ -50,4 +50,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ url_for('static', path='js/pages/user.js') }}"></script>
 {% endblock %}

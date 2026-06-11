@@ -59,4 +59,4 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(booking_router.router)
 app.include_router(auth_router.router, prefix='/auth')
-app.include_router(user_router.router, prefix='/account')
+app.include_router(user_router.router, prefix='/api')

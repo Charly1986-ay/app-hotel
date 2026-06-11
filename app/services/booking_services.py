@@ -1,6 +1,8 @@
+from sqlmodel import Session
+
 from datetime import date
 
-from sqlmodel import Session
+from app.utils.utils_dates import compare_to_date
 
 from app.models.booking import Booking, BookingCreate
 from app.models.payment import Payment, PaymentStatus
@@ -9,7 +11,7 @@ from app.repository.room_repository import RoomRepository
 
 from app.services.stripe_services import create_payment
 
-from app.core.exceptions import PaymentException, PriceMismatchException, RoomNotFound
+from app.core.exceptions import PaymentException, RoomNotFound
 
 class BookingServices:
     def __init__(self, db: Session):
@@ -25,7 +27,11 @@ class BookingServices:
             token_id: str,
             currency: str
     ):
-        # 1. Validar que existan IDs de habitaciones
+        # Validar las fechas
+        if (compare_to_date(booking.check_in)) or (
+            compare_to_date(booking.check_out)): raise PaymentException()
+
+        # Validar que existan IDs de habitaciones
         if not booking.room_ids:
             raise RoomNotFound()
         

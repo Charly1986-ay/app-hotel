@@ -61,7 +61,7 @@ def get_rooms_availible(
         
     
 
-@router.get('/payment', name='payment')
+@router.get('/api/payment', name='payment')
 def get_payment_template(request: Request):
     return templates.TemplateResponse(
         request=request, 
@@ -70,7 +70,7 @@ def get_payment_template(request: Request):
 
 
 
-@router.post('/payment', response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
+@router.post('/api/payment', response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
 def create_booking(
     db: DBSession,
     token: str = Body(...),      

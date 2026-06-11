@@ -2,7 +2,7 @@ export const BookingServices = {
 
     createBooking: async (stripeToken, booking) => {
         try {
-            const response = await fetch("/payment", {
+            const response = await fetch("/api/payment", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

@@ -41,7 +41,7 @@ export const initCartEvent = () => {
             }
 
             // 3. Si pasó el authRequire con éxito, va directo a pagar
-            window.location.href = "/payment";
+            window.location.href = "/api/payment";
             return;
         }
     });
