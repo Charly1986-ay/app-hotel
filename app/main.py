@@ -9,6 +9,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from app.api.routers import booking_router
 from app.api.routers import auth_router
 from app.api.routers import user_router
+from app.api.routers import supervisor_router
+from app.api.routers import receptionist_router
+from app.api.routers import manager_router
 from app.core.config import settings
 from app.core.db import init_db
 from app.core.tasks import check_in_job, check_out_job
@@ -60,3 +63,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(booking_router.router)
 app.include_router(auth_router.router, prefix='/auth')
 app.include_router(user_router.router, prefix='/api')
+app.include_router(supervisor_router.router, prefix='/admin/supervisor')
+app.include_router(receptionist_router.router, prefix='/admin/receptionist')
+app.include_router(manager_router.router, prefix='/admin/manager')

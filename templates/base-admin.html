@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hotel Admin{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', path='css/admin.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-logo" style="color: var(--primary-color); font-weight: bold; font-size: 1.4rem; margin-bottom: 2rem;">
+                🏨 Hotel Management Room
+            </div>
+            <nav class="sidebar-menu" style="display: flex; flex-direction: column; gap: 1rem;">
+                <a href="/admin/supervisor" class="menu-item">
+                    <span class="material-symbols-outlined">grid_view</span> Habitaciones
+                </a>
+                <a href="/admin/orders" class="menu-item">
+                    <span class="material-symbols-outlined">orders</span> Pedidos Insumos
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content" style="flex: 1; padding: 2rem; background-color: var(--bg-main);">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <script>
+        const hotelSocket = new WebSocket('ws://' + window.location.host + '/ws/hotel');
+        
+        hotelSocket.onopen = () => console.log("⚡ Cascarón conectado al WebSocket unificado");
+
+        hotelSocket.onmessage = function(event) {
+            const message = JSON.parse(event.data);
+            console.log("📥 Mensaje recibido en el cascarón:", message);
+            
+            /* Si la vista que heredó (ej: supervisor.html) definió la función 
+               'handleHotelEvent', el cascarón le pasa el paquete de datos directo.
+            */
+            if (typeof handleHotelEvent === "function") {
+                handleHotelEvent(message);
+            }
+        };
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

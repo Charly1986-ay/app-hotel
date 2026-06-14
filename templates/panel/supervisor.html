@@ -1,0 +1,40 @@
+{% extends "base-admin.html" %}
+
+{% block title %}Supervisor - Control de Habitaciones{% endblock %}
+
+{% block content %}
+<div class="dashboard-header" style="margin-bottom: 2rem;">
+    <h1 style="color: var(--text-title);">Monitoreo de Habitabilidad</h1>
+</div>
+
+<div class="hotel-grid" id="rooms-container">
+    </div>
+
+{% include "components/modal-supplies.html" %}
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    // 🧠 La lógica específica de esta página que escucha al cascarón
+    function handleHotelEvent(message) {
+        switch (message.event) {
+            case "room_changed":
+                // Lógica para pintar de dorado/verde la tarjeta usando tus estilos
+                updateRoomUI(message.data);
+                break;
+            case "order_status_updated":
+                alert(`Pedido de la habitación ${message.data.room_id} fue: ${message.data.status}`);
+                break;
+        }
+    }
+
+    function updateRoomUI(data) {
+        // Manipulación del DOM para cambiar las clases de tus tarjetas en tiempo real
+        const roomCard = document.querySelector(`[data-id="${data.id}"]`);
+        if (roomCard) {
+            roomCard.className = `room-card status-${data.status}`;
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,52 @@
+/* admin.css */
+@import './base/fonts.css';
+@import './base/reset.css';
+@import './base/variables.css';
+@import './ui/button.css';
+@import './ui/spinner.css';
+@import './ui/form.css';
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-main); /* El marfil base que se verá en los márgenes */
+}
+
+.sidebar {
+    width: 350px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid rgba(42, 36, 31, 0.08);
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 🚀 AJUSTE DEL CONTENEDOR PRINCIPAL CON MARGEN */
+.main-content {
+    flex: 1;
+    /* Dejamos un margen de 2rem (32px) arriba, abajo y a los lados */
+    margin: 2rem; 
+    
+    /* Le aplicamos tu blanco absoluto para que el panel simule "flotar" sobre el marfil */
+    background-color: var(--bg-pure); 
+    
+    /* Bordes suavizados en sintonía con tu Design System */
+    border-radius: var(--radius-main); 
+    
+    /* Una sombra muy sutil para despegar el panel del fondo marfil */
+    box-shadow: 0 4px 20px rgba(42, 36, 31, 0.04); 
+    
+    /* Padding interno para que los títulos y la grilla no toquen el borde del panel blanco */
+    padding: 2.5rem; 
+    
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* 📱 Adaptabilidad para pantallas chicas: reducimos el margen para no perder espacio */
+@media (max-width: 768px) {
+    .main-content {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}

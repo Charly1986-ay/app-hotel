@@ -1,7 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 
-current_date = datetime.now()
-
-def compare_to_date(current: date):
-    current_date.date()
-    return current_date < current
+def compare_to_date(current: date) -> bool:    
+    return current < date.today()

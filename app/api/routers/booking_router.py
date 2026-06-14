@@ -1,7 +1,7 @@
 from datetime import date
 from typing import List
 
-from fastapi import Body, HTTPException, Query, Request, status
+from fastapi import BackgroundTasks, Body, HTTPException, Query, Request, status
 
 from fastapi.routing import APIRouter
 from app.core.exceptions import PaymentException, RoomNotFound
@@ -73,9 +73,10 @@ def get_payment_template(request: Request):
 @router.post('/api/payment', response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
 def create_booking(
     db: DBSession,
+    background_tasks: BackgroundTasks,   
     token: str = Body(...),      
-    booking: dict = Body(...),     
-    user: User = user_dependency
+    booking: dict = Body(...),       
+    user: User = user_dependency       
 ):
     booking_model = BookingCreate(
         check_in=booking['check_in'],
@@ -91,7 +92,9 @@ def create_booking(
             booking=booking_model, 
             type_card='card', 
             token_id=token, 
-            currency='usd'
+            currency='usd',
+            user=user,                          
+            background_tasks=background_tasks   
         )
     except RoomNotFound:
         raise HTTPException(status_code=404, detail='No hay habitaciones para procesar')

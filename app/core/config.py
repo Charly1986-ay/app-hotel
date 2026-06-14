@@ -10,6 +10,14 @@ class Settings(BaseSettings):
     STRIPE_SECRET_KEY: str = Field(..., env="STRIPE_SECRET_KEY")
     PROJECT_NAME: str = "Hotel Management Room"    
 
+    # --- NUEVAS VARIABLES PARA EL SISTEMA DE CORREOS ---
+    MAIL_USERNAME: str = Field(default="", env="MAIL_USERNAME")
+    MAIL_PASSWORD: str = Field(default="", env="MAIL_PASSWORD")
+    MAIL_FROM: str = Field(..., env="MAIL_FROM") # Requerido
+    MAIL_PORT: int = Field(default=1025, env="MAIL_PORT")
+    MAIL_SERVER: str = Field(default="localhost", env="MAIL_SERVER")
+    MAIL_FROM_NAME: str = Field(default="Hotel Management", env="MAIL_FROM_NAME")
+    
     class Config:
         env_file = ".env"
 

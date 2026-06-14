@@ -45,7 +45,21 @@ def login(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail='Usuario o contraseña incorrectos'
-        )    
+        )   
+    except Exception as e:
+        # 2. Si el error es interno (un bug real, base de datos, Pydantic, etc.)
+        # Lo pintamos detallado en TU terminal para que sepas qué arreglar:
+        import traceback
+        print("\n🚨 [DEBUG INTERNO] Error ocultado al invasor:")
+        print(f"Tipo: {type(e).__name__} | Mensaje: {e}")
+        traceback.print_exc()
+        print("──────────────────────────────────────────────────\n")
+        
+        # Al invasor le seguimos tirando exactamente el mismo error. ¡Engaño absoluto!
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail='Usuario o contraseña incorrectos'
+        ) 
 
 
 @router.get('/me', status_code=status.HTTP_200_OK)

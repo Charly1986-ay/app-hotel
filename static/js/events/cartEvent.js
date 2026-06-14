@@ -35,7 +35,7 @@ export const initCartEvent = () => {
             // Si authRequire devolvió false (y adentro ya manejó el desvío al login), frenamos el código aquí
             if (!isAuthenticated) {
                 // Dejamos la migaja de pan para saber a dónde regresar tras el login exitoso
-                localStorage.setItem('redirect_after_login', '/payment');
+                localStorage.setItem('redirect_after_login', '/api/payment');
                 window.location.href = "/auth/login"; // Desvío manual por si authRequire no lo hace automáticamente
                 return;
             }

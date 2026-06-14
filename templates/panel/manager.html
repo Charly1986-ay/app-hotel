@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block module_name %}Panel de Gerencia{% endblock %}
+
+{% block sidebar_menu %}
+    <a href="#" class="active"><span class="material-symbols-outlined">analytics</span> Reportes y KPIs</a>
+    <a href="#"><span class="material-symbols-outlined">order_approve</span> Aprobaciones</a>
+{% endblock %}
+
+{% block content %}
+    <div class="cards-grid" id="kpi-container">
+        </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="module" src="/js/pages/manager.js"></script>
+{% endblock %}
