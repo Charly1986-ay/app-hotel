@@ -14,15 +14,19 @@ from app.dependencies.permission import get_current_user_active
 
 router = APIRouter()
 
+
 @router.get('/login', name='login_user', response_class=HTMLResponse)
 def login_page(request: Request) -> Response:
+    # Renderizar plantillas locales se mantiene sincrónico perfectamente
     return templates.TemplateResponse(
         request=request, 
         name='login.html'        
     )
 
+
+# CORRECCIÓN: Convertimos a 'async def'
 @router.post('/login', name='token_user', status_code=status.HTTP_200_OK)
-def login(    
+async def login(    
     email: Annotated[str, Form()],
     password: Annotated[str, Form()],
     response: Response, 
@@ -30,13 +34,15 @@ def login(
 ) -> TokenResponse:
     try:
         login_data = UserLogin(email=email, password=password)
-        token_data = services.login_services(user=login_data, db=db)
+        
+        # CORRECCIÓN: Agregamos el 'await' obligatorio para llamar al servicio asíncrono
+        token_data = await services.login_services(user=login_data, db=db)
         
         response.set_cookie(
             key='access_token',
             value=token_data.access_token,
             httponly=True,
-            secure=False, #=> True solo para produccion
+            secure=False, # => True solo para producción
             samesite='lax'
         )
         return token_data     
@@ -47,23 +53,21 @@ def login(
             detail='Usuario o contraseña incorrectos'
         )   
     except Exception as e:
-        # 2. Si el error es interno (un bug real, base de datos, Pydantic, etc.)
-        # Lo pintamos detallado en TU terminal para que sepas qué arreglar:
         import traceback
         print("\n🚨 [DEBUG INTERNO] Error ocultado al invasor:")
         print(f"Tipo: {type(e).__name__} | Mensaje: {e}")
         traceback.print_exc()
         print("──────────────────────────────────────────────────\n")
         
-        # Al invasor le seguimos tirando exactamente el mismo error. ¡Engaño absoluto!
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail='Usuario o contraseña incorrectos'
         ) 
 
 
+# CORRECCIÓN: Convertimos a 'async def' porque consume una dependencia de seguridad asíncrona
 @router.get('/me', status_code=status.HTTP_200_OK)
-def verify_user(user: User = Depends(get_current_user_active)):
+async def verify_user(user: User = Depends(get_current_user_active)):
     '''
         Endpoint universal de control de sesión.
         Si la cookie es válida y el usuario existe en la DB, devuelve 200 OK.

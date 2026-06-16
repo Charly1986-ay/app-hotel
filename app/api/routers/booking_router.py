@@ -2,8 +2,8 @@ from datetime import date
 from typing import List
 
 from fastapi import BackgroundTasks, Body, HTTPException, Query, Request, status
-
 from fastapi.routing import APIRouter
+
 from app.core.exceptions import PaymentException, RoomNotFound
 from app.dependencies.db_deps import DBSession
 from app.dependencies.permission import user_dependency
@@ -16,24 +16,9 @@ from app.services.booking_services import BookingServices
 
 router = APIRouter()
 
-""" @router.get('/', name='index', response_model=List[RoomResponse], status_code=status.HTTP_200_OK)
-def get_index(request: Request, db: DBSession):    
-    services = BookingServices(db=db)
-    today = date.today()
-
-    return templates.TemplateResponse(
-        request=request, 
-        name='index.html',
-        context={'rooms': services.get_all_available_rooms_services(
-                start=today,
-                end=today                
-            )
-        }
-    )  """  
-
-
 @router.get('/', name='index')
 def get_index(request: Request):  
+    # Leer archivos del disco local con Jinja sigue siendo perfecto de forma sincrónica
     return templates.TemplateResponse(
         request=request, 
         name='index.html'
@@ -46,7 +31,8 @@ def get_index(request: Request):
         response_model=List[RoomResponse], 
         status_code=status.HTTP_200_OK
 )
-def get_rooms_availible(
+# CORRECCIÓN: Convertimos a 'async def' porque el servicio interno consulta la DB de forma asíncrona
+async def get_rooms_availible(
     request: Request, 
     db: DBSession, 
     start: date = Query(..., alias="checkin"), 
@@ -54,7 +40,8 @@ def get_rooms_availible(
 ):
     services = BookingServices(db=db)   
 
-    return services.get_all_available_rooms_services(
+    # CORRECCIÓN: Agregamos el 'await' obligatorio para esperar la lista de habitaciones disponibles
+    return await services.get_all_available_rooms_services(
         start=start,
         end=end
     )
@@ -69,9 +56,9 @@ def get_payment_template(request: Request):
     )
 
 
-
 @router.post('/api/payment', response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
-def create_booking(
+# CORRECCIÓN: Convertimos a 'async def' debido a que involucra pasarela de pago (Stripe) y escrituras en DB
+async def create_booking(
     db: DBSession,
     background_tasks: BackgroundTasks,   
     token: str = Body(...),      
@@ -84,16 +71,17 @@ def create_booking(
         user_id=user.id,
         room_ids=booking['room_ids'] 
     )
-    #print(f'Check-in: {booking['check_in']}\nCheck-out: {booking['check_out']}')
+    
     services = BookingServices(db=db)
 
     try:
-        return services.create_reservation(
+        # CORRECCIÓN: Agregamos el 'await' fundamental para orquestar toda la transacción asíncrona
+        return await services.create_reservation(
             booking=booking_model, 
             type_card='card', 
             token_id=token, 
             currency='usd',
-            user=user,                          
+            user=user,                                          
             background_tasks=background_tasks   
         )
     except RoomNotFound:

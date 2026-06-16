@@ -1,45 +1,45 @@
-from sqlmodel import col, select, Session
+from datetime import date
+from sqlmodel import col, select
+# 1. Cambiamos el tipo de sesión al módulo de extensión asíncrona de SQLModel
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.models.booking import Booking, BookingCreate, BookingRoom
-
-from datetime import date
-
-from app.models.room import Room
 from app.models.payment import Payment
+from app.models.room import Room
+
 
 class BookingRepository:
-    def __init__(self, db: Session):
+    # 2. Tipamos el constructor con AsyncSession
+    def __init__(self, db: AsyncSession):
         self.db = db
 
+    # 3. Convertimos todos los métodos a 'async def' y aplicamos 'await'
+    async def get(self, booking_id: int) -> Booking | None:
+        return await self.db.get(Booking, booking_id)
+    
+    async def get_check_in(self, check_in: date) -> list[Booking] | None:
+        result = await self.db.exec(
+            select(Booking).where(Booking.check_in == check_in)
+        )
+        return result.all()
 
-    def get(self, booking_id: int) -> Booking | None:
-        return self.db.get(Booking, booking_id)
-    
-    
-    def get_check_in(self, check_in: date) -> list[Booking] | None:
-        return self.db.exec(
-            select(Booking).where(Booking.check_in == check_in)).all()
-    
+    async def get_check_out(self, check_out: date) -> list[Booking] | None:
+        result = await self.db.exec(
+            select(Booking).where(Booking.check_out == check_out)
+        )
+        return result.all()
 
-    def get_check_out(self, check_out: date) -> list[Booking] | None:
-        return self.db.exec(
-            select(Booking).where(Booking.check_out == check_out)).all()
-    
-
-    def get_all_available_rooms(self, start: date, end: date) -> list[Room]:
+    async def get_all_available_rooms(self, start: date, end: date) -> list[Room]:
         """
-        Busca todas las habitaciones disponibles.
+        Busca todas las habitaciones disponibles de manera asíncrona.
         """
-        
         # 1. Subconsulta: IDs de habitaciones con conflictos de fechas
-        # Se une la tabla intermedia (BookingRoom) con la de reservas (Booking)
         rooms_with_conflict = (
             select(BookingRoom.room_id)
             .join(Booking)
             .where(
                 Booking.check_in < end,
                 Booking.check_out > start,
-                # Booking.status != StatusBooking.CANCELLED (Sugerido: omitir canceladas)
             )
         )
 
@@ -52,31 +52,32 @@ class BookingRepository:
             .where(Room.status == 'available')
         )
 
-        # 3. Ejecución
-        return self.db.exec(statement).all()
-    
+        # 3. Ejecución asíncrona
+        result = await self.db.exec(statement)
+        return result.all()
 
-    def save_all(self, booking_obj: Booking, payment_obj: Payment) -> Booking:
+    async def save_all(self, booking_obj: Booking, payment_obj: Payment) -> Booking:
         try:
             self.db.add(booking_obj)
-            self.db.flush() # Esto genera el ID de la reserva sin cerrar la transacción
+            # El flush ahora requiere 'await' para hablar con SQLite de forma asíncrona
+            await self.db.flush() 
             
-            payment_obj.booking_id = booking_obj.id # Asignamos el ID generado
+            payment_obj.booking_id = booking_obj.id 
             self.db.add(payment_obj)
             
-            self.db.commit() # Guardamos ambos o nada
-            self.db.refresh(booking_obj)
+            # Operaciones de guardado asíncronas
+            await self.db.commit() 
+            await self.db.refresh(booking_obj)
             return booking_obj
         except Exception as e:
-            self.db.rollback() # Si algo falla, limpiamos la DB
+            await self.db.rollback() 
             raise e
-    
 
-    def update(self, booking: Booking, updates: dict) -> Booking:        
+    async def update(self, booking: Booking, updates: dict) -> Booking:        
         for key, value in updates.items():
             setattr(booking, key, value)
 
         self.db.add(booking)
-        self.db.commit()
-        self.db.refresh(booking)
+        await self.db.commit()
+        await self.db.refresh(booking)
         return booking

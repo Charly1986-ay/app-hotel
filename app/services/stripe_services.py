@@ -1,52 +1,40 @@
 import uuid
-
 import stripe
-
 from app.core.config import settings
 from app.core.exceptions import PaymentException
 
-# 2. ASIGNA LA CLAVE GLOBALMENTE
-stripe.api_key = settings.STRIPE_SECRET_KEY
+# 1. En lugar de usar la clave global, instanciamos el cliente asíncrono oficial
+stripe_client = stripe.StripeClient(settings.STRIPE_SECRET_KEY)
 
 
-def create_payment_method(type_card: str, card: dict) -> str | None:
+# 2. Convertimos a 'async def'
+async def create_payment_method(type_card: str, card: dict) -> str | None:
     try:
-        # 'card' ahora contiene {"token": "tok_XXXX"} gracias a BookingServices.
-        # Stripe acepta este diccionario feliz de la vida.
-        payment_method = stripe.PaymentMethod.create(
+        # 3. Usamos 'await' y llamamos a través del cliente asíncrono
+        payment_method = await stripe_client.payment_methods.create(
             type=type_card, 
             card=card
         )
         return payment_method.id
-    except stripe.error.StripeError as e:  # <-- IMPORTANTE: Usa stripe.error.StripeError
+    except stripe.error.StripeError as e:
         print(f'Error de stripe al crear Payment Method: {e.user_message}')
         return None
 
 
-# currency = 'usd', 'eur' o 'ar'
-# type_card = 'card'
-""" 
-    card_data = {
-        "number": "4242424242424242",
-        "exp_month": 12,
-        "exp_year": 2027,
-        "cvc": "123"
-    }    
-    card = card_data
-"""
-def create_payment(
+async def create_payment(
         amount: int, 
         currency: str, 
         type_card: str, 
-        card: dict  # Recibe {"token": "tok_XXXX"} desde BookingServices
+        card: dict  # Recibe {"token": "tok_XXXX"}
 ) -> stripe.PaymentIntent | None:
     
-    # Se lo reenvía a la función de arriba sin tocar nada
-    payment_method_id = create_payment_method(type_card=type_card, card=card)
+    # 4. CRÍTICO: Agregar 'await' al llamar a la función de arriba
+    payment_method_id = await create_payment_method(type_card=type_card, card=card)
     
     if payment_method_id:
         try:
-            payment_intent = stripe.PaymentIntent.create(
+            # 5. Usamos 'await' y el cliente asíncrono para generar el cobro
+            payment_intent = await stripe_client.payment_intents.create(
                 amount=int(amount * 100),
                 currency=currency,
                 payment_method=payment_method_id,
@@ -63,9 +51,9 @@ def create_payment(
             print(f"Error de cliente: {e.user_message}")
             raise PaymentException(detail=e.user_message)
             
-        except stripe.error.StripeError as e:  # <-- Agrega el "as e" por si quieres printearlo
+        except stripe.error.StripeError as e:
             print(f"Error general de Stripe: {e.user_message}")
             raise PaymentException(detail="Servicio de pagos no disponible temporalmente")
     else:
         print('No se pudo crear un método de pago')
-        return None  # <-- Agrega este return por buena práctica si falla
+        return None

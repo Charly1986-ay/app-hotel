@@ -12,15 +12,17 @@ from app.services import user_services
 router = APIRouter()
 
 @router.get('', name='account_user')
-def get_index(request: Request):
+def get_account(request: Request):
+    # Cargar la plantilla del registro desde el disco local se mantiene sincrónico
     return templates.TemplateResponse(
         request=request, 
         name='register.html'        
     )
 
 
+# CORRECCIÓN: Convertimos a 'async def'
 @router.post('/register', response_model=UserResponse)
-def register_user(
+async def register_user(
     email: Annotated[str, Form()],
     full_name: Annotated[str, Form()],
     password: Annotated[str, Form()],
@@ -28,6 +30,7 @@ def register_user(
     background_tasks: BackgroundTasks
 ):
     try:
+        # Forzamos que por defecto todo registro desde este formulario sea un CLIENTE
         user = UserCreate(
             email=email,
             full_name=full_name,
@@ -35,7 +38,9 @@ def register_user(
             role=Role.CLIENT.value
         )
 
-        return user_services.register(user=user, db=db, background_tasks=background_tasks)
+        # CORRECCIÓN: Agregamos el 'await' obligatorio para esperar al servicio asíncrono
+        return await user_services.register(user=user, db=db, background_tasks=background_tasks)
+        
     except EmailExistsException:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,

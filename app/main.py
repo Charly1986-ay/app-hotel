@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from apscheduler.schedulers.background import BackgroundScheduler
+# Cambiamos BackgroundScheduler por AsyncIOScheduler para soportar tareas async
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from app.api.routers import booking_router
 from app.api.routers import auth_router
@@ -21,16 +22,18 @@ load_dotenv()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    init_db()
+    # 1. Agregamos el 'await' obligatorio para la base de datos asíncrona
+    await init_db()
 
-    scheduler = BackgroundScheduler(timezone="America/Argentina/Buenos_Aires")
+    # 2. Usamos AsyncIOScheduler para que se lleve bien con el entorno async
+    scheduler = AsyncIOScheduler(timezone="America/Argentina/Buenos_Aires")
     
     # tarea 1 => check-out JOB (13.00hs)
     scheduler.add_job(
         check_out_job,
         trigger='cron',
         hour=13,
-        minute=00,
+        minute=0,
         id="checkout_daily",
         replace_existing=True
     )
@@ -39,12 +42,12 @@ async def lifespan(app: FastAPI):
         check_in_job,
         trigger='cron',
         hour=15,
-        minute=00,
+        minute=0,
         id="checkin_daily",
         replace_existing=True
     )
     scheduler.start()
-    print("Scheduler iniciado....")
+    print("Scheduler (Async) iniciado....")
     
     yield
     
