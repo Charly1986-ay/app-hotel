@@ -31,7 +31,7 @@ def get_index(request: Request):
         response_model=List[RoomResponse], 
         status_code=status.HTTP_200_OK
 )
-# CORRECCIÓN: Convertimos a 'async def' porque el servicio interno consulta la DB de forma asíncrona
+# Convertimos a 'async def' porque el servicio interno consulta la DB de forma asíncrono
 async def get_rooms_availible(
     request: Request, 
     db: DBSession, 
@@ -40,7 +40,7 @@ async def get_rooms_availible(
 ):
     services = BookingServices(db=db)   
 
-    # CORRECCIÓN: Agregamos el 'await' obligatorio para esperar la lista de habitaciones disponibles
+    # Agregamos el 'await' obligatorio para esperar la lista de habitaciones disponibles
     return await services.get_all_available_rooms_services(
         start=start,
         end=end
@@ -57,7 +57,7 @@ def get_payment_template(request: Request):
 
 
 @router.post('/api/payment', response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
-# CORRECCIÓN: Convertimos a 'async def' debido a que involucra pasarela de pago (Stripe) y escrituras en DB
+# Convertimos a 'async def' debido a que involucra pasarela de pago (Stripe) y escrituras en DB
 async def create_booking(
     db: DBSession,
     background_tasks: BackgroundTasks,   
@@ -75,13 +75,12 @@ async def create_booking(
     services = BookingServices(db=db)
 
     try:
-        # CORRECCIÓN: Agregamos el 'await' fundamental para orquestar toda la transacción asíncrona
+        # CORRECCIÓN: Quitamos 'type_card' porque la firma de BookingServices ya no lo recibe
         return await services.create_reservation(
             booking=booking_model, 
-            type_card='card', 
             token_id=token, 
             currency='usd',
-            user=user,                                          
+            user=user,                                                                          
             background_tasks=background_tasks   
         )
     except RoomNotFound:

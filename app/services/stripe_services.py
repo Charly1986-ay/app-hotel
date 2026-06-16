@@ -1,59 +1,46 @@
-import uuid
 import stripe
+from fastapi.concurrency import run_in_threadpool
 from app.core.config import settings
-from app.core.exceptions import PaymentException
 
-# 1. En lugar de usar la clave global, instanciamos el cliente asíncrono oficial
-stripe_client = stripe.StripeClient(settings.STRIPE_SECRET_KEY)
+# Configuramos la clave secreta de Stripe
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
+def _execute_stripe_charge(amount: int, currency: str, stripe_token: str):
+    """
+    Función sincrónica que interactúa con Stripe cumpliendo con todas las reglas de su API.
+    """
+    return stripe.PaymentIntent.create(
+        amount=amount,
+        currency=currency,
+        # 1. Pasamos el token como método de pago directo
+        payment_method_data={
+            "type": "card",
+            "card": {"token": stripe_token},
+        },
+        confirm=True,  # Confirmamos el pago de inmediato
+        
+        # 2. SOLUCIÓN COMPLETA AL TRACEBACK:
+        # Le decimos que use los métodos automáticos del dashboard pero PROHIBIMOS redirecciones
+        automatic_payment_methods={
+            "enabled": True,
+            "allow_redirects": "never"  # ◄ ¡Esto es lo que soluciona el InvalidRequestError!
+        },
+        off_session=False,
+    )
 
-# 2. Convertimos a 'async def'
-async def create_payment_method(type_card: str, card: dict) -> str | None:
-    try:
-        # 3. Usamos 'await' y llamamos a través del cliente asíncrono
-        payment_method = await stripe_client.payment_methods.create(
-            type=type_card, 
-            card=card
-        )
-        return payment_method.id
-    except stripe.error.StripeError as e:
-        print(f'Error de stripe al crear Payment Method: {e.user_message}')
-        return None
-
-
-async def create_payment(
-        amount: int, 
-        currency: str, 
-        type_card: str, 
-        card: dict  # Recibe {"token": "tok_XXXX"}
-) -> stripe.PaymentIntent | None:
+async def create_payment(amount: float, stripe_token: str, currency: str = "usd"):
+    """
+    Tu función asíncrona original que llama tu 'booking_services.py'.
+    """
+    # Convertimos el float (66) a centavos enteros (6600)
+    amount_in_cents = int(amount * 100)
     
-    # 4. CRÍTICO: Agregar 'await' al llamar a la función de arriba
-    payment_method_id = await create_payment_method(type_card=type_card, card=card)
+    # Ejecutamos en el pool de hilos
+    payment_intent = await run_in_threadpool(
+        _execute_stripe_charge,
+        amount=amount_in_cents,
+        currency=currency,
+        stripe_token=stripe_token
+    )
     
-    if payment_method_id:
-        try:
-            # 5. Usamos 'await' y el cliente asíncrono para generar el cobro
-            payment_intent = await stripe_client.payment_intents.create(
-                amount=int(amount * 100),
-                currency=currency,
-                payment_method=payment_method_id,
-                confirm=True,
-                idempotency_key=f"booking_{uuid.uuid4()}", 
-                automatic_payment_methods={
-                    "enabled": True,
-                    "allow_redirects": "never" 
-                }
-            )
-            return payment_intent
-            
-        except stripe.error.CardError as e:
-            print(f"Error de cliente: {e.user_message}")
-            raise PaymentException(detail=e.user_message)
-            
-        except stripe.error.StripeError as e:
-            print(f"Error general de Stripe: {e.user_message}")
-            raise PaymentException(detail="Servicio de pagos no disponible temporalmente")
-    else:
-        print('No se pudo crear un método de pago')
-        return None
+    return payment_intent
