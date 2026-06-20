@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import TYPE_CHECKING, List, Optional
 
+from pydantic import ConfigDict
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
@@ -66,4 +67,4 @@ class UserResponse(SQLModel):
     id: int
     email: str
     full_name: str
-    model_config = {'from_attributes': True}
+    model_config = ConfigDict(from_attributes=True)

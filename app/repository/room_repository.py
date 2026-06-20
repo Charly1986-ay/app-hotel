@@ -6,12 +6,10 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from app.models.room import Room, TypeRoom, StatusRoom
 
 
-class RoomRepository:
-    # 2. El constructor recibe la sesión asíncrona
+class RoomRepository:  
     def __init__(self, db: AsyncSession):
         self.db = db
-
-    # 3. Todos los métodos con 'async def' y sus respectivos 'await'
+    
     async def get(self, room_id: int) -> Room | None:
         return await self.db.get(Room, room_id)
     
@@ -29,8 +27,7 @@ class RoomRepository:
             select(Room).where(Room.type_room == room_type)
         )
         return result.all()
-
-    # CORREGIDO: Ahora usa 'status: StatusRoom' y el retorno indica la lista correctamente
+    
     async def get_by_status_room(self, status: StatusRoom) -> list[Room]:
         result = await self.db.exec(
             select(Room).where(Room.status == status)

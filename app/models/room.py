@@ -1,6 +1,7 @@
 from enum import Enum
 from typing import TYPE_CHECKING, List, Optional
 
+from pydantic import ConfigDict
 from sqlmodel import Field, Relationship, SQLModel
 
 import app.models.booking as booking_mod
@@ -41,18 +42,18 @@ class Room(SQLModel, table=True):
 
 
 class RoomCreate(SQLModel):
-    bed_count: int
-    max_capacity: int
-    price: int
+    bed_count: int = Field(ge=1, le=5)      # Mínimo 1 cama, máximo 5
+    max_capacity: int = Field(ge=1, le=4)   # Mínimo 1 persona, máximo 4
+    price: int = Field(gt=0)                # Estrictamente mayor que 0
     image: str
     type_room: TypeRoom = TypeRoom.STANDARD
     status: StatusRoom = StatusRoom.AVAILABLE
 
 
 class RoomUpdate(SQLModel):
-    bed_count: Optional[int] = None
-    max_capacity: Optional[int] = None
-    price: Optional[int] = None
+    bed_count: Optional[int] = Field(default=None, ge=1, le=5)
+    max_capacity: Optional[int] = Field(default=None, ge=1, le=4)
+    price: Optional[int] = Field(default=None, ge=1)
     type_room: Optional[TypeRoom] = None
     status: Optional[StatusRoom] = None
 
@@ -65,4 +66,4 @@ class RoomResponse(SQLModel):
     image: str
     type_room: TypeRoom
     status: StatusRoom
-    model_config = {'from_attributes': True}
+    model_config = ConfigDict(from_attributes=True)

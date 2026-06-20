@@ -2,6 +2,7 @@ from datetime import date
 from enum import Enum
 from typing import TYPE_CHECKING, List, Optional
 
+from pydantic import ConfigDict
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -55,4 +56,4 @@ class BookingResponse(SQLModel):
     check_out: date   
     user_id: int
     status: StatusBooking
-    model_config = {'from_attributes': True}
+    model_config = ConfigDict(from_attributes=True)

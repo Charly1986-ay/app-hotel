@@ -1,8 +1,7 @@
-from contextlib import contextmanager
-
 from pwdlib import PasswordHash
-from sqlmodel import Session, select
-
+from sqlmodel import select
+from contextlib import asynccontextmanager
+from sqlmodel.ext.asyncio.session import AsyncSession
 from app.core.db import engine, init_db
 from app.models.booking import Booking
 from app.seeds.data.user import USERS
@@ -11,14 +10,13 @@ from app.seeds.data.booking import BOOKINGS
 from app.models.user import User
 from app.models.room import Room, StatusRoom
 
-
-@contextmanager
-def atomic(db: Session):
+@asynccontextmanager
+async def atomic(db: AsyncSession):
     try:
         yield
-        db.commit()
+        await db.commit()
     except Exception:
-        db.rollback()
+        await db.rollback()
         raise
 
 
@@ -29,15 +27,18 @@ def get_hex(name: str) -> str:
 def hash_password(plain: str) -> str:
     return PasswordHash.recommended().hash(plain)
 
-def _user_by_email(db: Session, email: str) -> User | None:
-        return db.exec(
-            select(User).where(User.email == email)).first()
+
+# Agregamos async y cambiamos a db.exec para que sea asíncrono nativo
+async def _user_by_email(db: AsyncSession, email: str) -> User | None:
+    result = await db.exec(select(User).where(User.email == email))
+    return result.scalars().first()
 
 
-def seed_users(db: Session) -> None:
-    with atomic(db):
+# Cambiamos a async def y usamos "async with atomic(db):"
+async def seed_users(db: AsyncSession) -> None:
+    async with atomic(db):
         for data in USERS:
-            obj = _user_by_email(db, data['email'])
+            obj = await _user_by_email(db, data['email'])
             if obj:
                 changed = False
                 if obj.full_name != data.get('full_name'):
@@ -59,11 +60,12 @@ def seed_users(db: Session) -> None:
                     hashed_password=hash_password(data['password'])
                 ))
 
-def seed_rooms(db: Session) -> None:
-    with atomic(db):
+
+async def seed_rooms(db: AsyncSession) -> None:
+    async with atomic(db):
         for data in ROOMS:
-            # Evitamos duplicados buscando por el nombre de la imagen
-            obj = db.exec(select(Room).where(Room.image == data['image'])).first()
+            result = await db.exec(select(Room).where(Room.image == data['image']))
+            obj = result.scalars().first()
             if not obj:
                 db.add(Room(
                     bed_count=data['bed_count'],
@@ -71,32 +73,30 @@ def seed_rooms(db: Session) -> None:
                     price=data['price'],
                     image=data.get('image'),
                     type_room=data.get('type_room'),
-                    # Si el seed dice que es 'occupied', lo respetamos, si no, 'available'
                     status=data.get('status', StatusRoom.AVAILABLE)
                 ))
             else:
-                # Opcional: Actualizar el estado si ya existe para resetear el test
                 if data.get('status'):
                     obj.status = data.get('status')
                     db.add(obj)
 
-def seed_bookings(db: Session) -> None:
-    with atomic(db):
+
+async def seed_bookings(db: AsyncSession) -> None:
+    async with atomic(db):
         for data in BOOKINGS:
-            # 1. Buscamos al usuario (usando el offset o email)
-            # Para este ejemplo de test, asumimos que los IDs coinciden con tu lista de seeds
-            user = db.exec(select(User).where(User.id == data['user_id'])).first()
+            # Consultas adaptadas a exec() asíncrono
+            user_result = await db.exec(select(User).where(User.id == data['user_id']))
+            user = user_result.scalars().first()
             
-            # 2. Buscamos una habitación disponible para este booking
-            # En un test real, podrías asignar la habitación 1 al booking 1, etc.
-            room = db.exec(select(Room).where(Room.id == data['user_id'])).first()
+            room_result = await db.exec(select(Room).where(Room.id == data['user_id']))
+            room = room_result.scalars().first()
 
             if user and room:
-                # Comprobamos si la reserva ya existe para no duplicar
-                exists = db.exec(select(Booking).where(
+                exists_result = await db.exec(select(Booking).where(
                     Booking.user_id == user.id, 
                     Booking.check_in == data['check_in']
-                )).first()
+                ))
+                exists = exists_result.scalars().first()
                 
                 if not exists:
                     db.add(Booking(
@@ -104,25 +104,26 @@ def seed_bookings(db: Session) -> None:
                         check_out=data['check_out'],
                         user_id=user.id,
                         status=data['status'],
-                        rooms=[room] # Relación N:M
+                        rooms=[room] 
                     ))
 
 
-def run_all() -> None:
-    init_db()
-    with Session(engine) as db:
-        seed_users(db)
-        seed_rooms(db)
-        seed_bookings(db)
+# Todos los ejecutores ahora usan "async def" y controlan la sesión asíncrona correctamente
+async def run_all() -> None:
+    await init_db()  # init_db ya tenía run_sync internamente
+    async with AsyncSession(engine) as db:
+        await seed_users(db)
+        await seed_rooms(db)
+        await seed_bookings(db)
 
-def run_users() -> None:
-    with Session(engine) as db:
-        seed_users(db)
+async def run_users() -> None:
+    async with AsyncSession(engine) as db:
+        await seed_users(db)
 
-def run_rooms() -> None:
-    with Session(engine) as db:
-        seed_rooms(db)
+async def run_rooms() -> None:
+    async with AsyncSession(engine) as db:
+        await seed_rooms(db)
 
-def run_booking() -> None:
-    with Session(engine) as db:
-        seed_bookings(db)
+async def run_booking() -> None:
+    async with AsyncSession(engine) as db:
+        await seed_bookings(db)

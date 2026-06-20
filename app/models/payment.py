@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import TYPE_CHECKING, Optional
 
+from pydantic import ConfigDict
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
@@ -59,4 +60,4 @@ class PaymentResponse(SQLModel):
     currency: str
     status: str
     created_at: datetime    
-    model_config = {'from_attributes': True}
+    model_config = ConfigDict(from_attributes=True)

@@ -5,20 +5,16 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from app.models.user import User
 
 
-class UserRepository:
-    # 2. Tipamos el constructor con AsyncSession
+class UserRepository:    
     def __init__(self, db: AsyncSession):
         self.db = db
-
-    # 3. Convertimos todos los métodos a 'async def' y metemos los 'await' obligatorios
+    
     async def get(self, user_id: int) -> User | None:
         return await self.db.get(User, user_id)
     
-    async def get_by_email(self, email: str) -> User | None:
-        # 4. Agregamos el await real a la ejecución de la consulta
-        result = await self.db.exec(select(User).where(User.email == email))
+    async def get_by_email(self, email: str) -> User | None:        
+        result = await self.db.exec(select(User).where(User.email == email))        
         
-        # .one_or_none() se ejecuta sobre el resultado en memoria, no requiere await
         return result.one_or_none()
     
     async def create(self, user: User) -> User:

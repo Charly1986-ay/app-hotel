@@ -8,12 +8,10 @@ from app.models.payment import Payment
 from app.models.room import Room
 
 
-class BookingRepository:
-    # 2. Tipamos el constructor con AsyncSession
+class BookingRepository:   
     def __init__(self, db: AsyncSession):
         self.db = db
-
-    # 3. Convertimos todos los métodos a 'async def' y aplicamos 'await'
+    
     async def get(self, booking_id: int) -> Booking | None:
         return await self.db.get(Booking, booking_id)
     
