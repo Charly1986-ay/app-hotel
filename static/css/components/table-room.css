@@ -1,0 +1,82 @@
+/* --- CONFIGURACIÓN DE LA TABLA --- */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+}
+
+.admin-table th {
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.admin-table th:first-child { border-top-left-radius: var(--radius-main); }
+.admin-table th:last-child { border-top-right-radius: var(--radius-main); }
+
+.admin-table td {
+    padding: 1.1rem 1.25rem;
+    border-bottom: 1px solid rgba(42, 36, 31, 0.05);
+    color: var(--text-body);
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr {
+    transition: var(--transition-fast);
+}
+
+.admin-table tbody tr:hover {
+    background-color: var(--bg-sidebar);
+}
+
+/* --- BADGES PARA LOS ENUMS DE STATUSROOM --- */
+.status-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-main);
+    font-weight: 600;
+    font-size: 0.75rem;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 1. AVAILABLE: El dorado/ocre corporativo rebajado */
+.status-available {
+    background-color: color-mix(in srgb, var(--secondary-color) 12%, transparent);
+    color: #8c6a0b; 
+    border: 1px solid color-mix(in srgb, var(--secondary-color) 40%, transparent);
+}
+
+/* 2. OCCUPIED: Un tono sutil que denote ocupación sin romper la paleta cálida */
+.status-occupied {
+    background-color: color-mix(in srgb, var(--text-title) 10%, transparent);
+    color: var(--text-title);
+    border: 1px solid rgba(42, 36, 31, 0.2);
+}
+
+/* 3. PENDING_CLEANING: Gris/Café mutado intermedio */
+.status-pending_cleaning {
+    background-color: var(--bg-sidebar);
+    color: var(--text-body);
+    border: 1px solid var(--input-placeholder);
+}
+
+/* 4. MAINTENANCE: Vino de marca muy diluido para alertar con sutileza */
+.status-maintenance {
+    background-color: color-mix(in srgb, var(--primary-color) 8%, transparent);
+    color: var(--primary-hover);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 30%, transparent);
+}
+
+.loading-text {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 2.5rem !important;
+}

@@ -2,19 +2,49 @@
 
 {% block title %}Supervisor - Control de Habitaciones{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', path='css/components/table-room.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="dashboard-header" style="margin-bottom: 2rem;">
     <h1 style="color: var(--text-title);">Monitoreo de Habitabilidad</h1>
 </div>
 
-<div class="hotel-grid" id="rooms-container">
+<main class="main-content">
+    
+    <div class="table-header">
+        <h2>Monitoreo de Habitaciones</h2>
+        <p>Actualizaciones en tiempo real desde el sistema de reservas</p>
     </div>
+    
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Camas</th>
+                <th>Capacidad Máx.</th>
+                <th>Precio / Noche</th>
+                <th>Estado Actual</th>
+            </tr>
+        </thead>
+        <tbody id="rooms-table-body">
+            <tr>
+                <td colspan="6" class="loading-text">Conectando al flujo de datos en tiempo real...</td>
+            </tr>
+        </tbody>
+    </table>
+
+</main>
 
 {% include "components/modal-supplies.html" %}
 {% endblock %}
 
 
 {% block extra_js %}
+<script type="module" src="{{ url_for('static', path='js/components/tableRoom.js') }}"></script>
+
 <script>
     // 🧠 La lógica específica de esta página que escucha al cascarón
     function handleHotelEvent(message) {

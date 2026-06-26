@@ -67,3 +67,16 @@ class RoomResponse(SQLModel):
     type_room: TypeRoom
     status: StatusRoom
     model_config = ConfigDict(from_attributes=True)
+
+
+class RoomAdminTable(SQLModel):
+    id: int
+    bed_count: int
+    max_capacity: int
+    price: int    
+    type_room: TypeRoom
+    status: StatusRoom
+
+
+class RoomListNotAvailable(SQLModel):
+    rooms_not_available: list[RoomAdminTable]

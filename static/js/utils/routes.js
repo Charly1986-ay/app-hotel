@@ -6,9 +6,9 @@
  */
 export const ROLE_ROUTES = {
     'client': '/',
-    'receptionist': '/admin/reception', // ◄ Cambiado a 'reception'
-    'supervisor': '/admin/supervisor',   // ◄ Este ya estaba perfecto
-    'manager': '/admin/manager'         // ◄ Cambiado a 'manager'
+    'receptionist': '/admin/reception', 
+    'supervisor': '/admin/supervisor',   
+    'manager': '/admin/manager'        
 };
 
 /**

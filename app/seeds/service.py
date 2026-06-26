@@ -1,12 +1,14 @@
+from contextlib import asynccontextmanager
 from pwdlib import PasswordHash
 from sqlmodel import select
-from contextlib import asynccontextmanager
 from sqlmodel.ext.asyncio.session import AsyncSession
 from app.core.db import engine, init_db
-from app.models.booking import Booking
+from app.models.booking import Booking, StatusBooking
+from app.models.supply import Supply
 from app.seeds.data.user import USERS
 from app.seeds.data.room import ROOMS
 from app.seeds.data.booking import BOOKINGS
+from app.seeds.data.supply import SUPPLIES
 from app.models.user import User
 from app.models.room import Room, StatusRoom
 
@@ -28,13 +30,11 @@ def hash_password(plain: str) -> str:
     return PasswordHash.recommended().hash(plain)
 
 
-# Agregamos async y cambiamos a db.exec para que sea asíncrono nativo
 async def _user_by_email(db: AsyncSession, email: str) -> User | None:
     result = await db.exec(select(User).where(User.email == email))
-    return result.scalars().first()
+    return result.first()
 
 
-# Cambiamos a async def y usamos "async with atomic(db):"
 async def seed_users(db: AsyncSession) -> None:
     async with atomic(db):
         for data in USERS:
@@ -65,16 +65,13 @@ async def seed_rooms(db: AsyncSession) -> None:
     async with atomic(db):
         for data in ROOMS:
             result = await db.exec(select(Room).where(Room.image == data['image']))
-            obj = result.scalars().first()
+            obj = result.first()
+
             if not obj:
-                db.add(Room(
-                    bed_count=data['bed_count'],
-                    max_capacity=data['max_capacity'],
-                    price=data['price'],
-                    image=data.get('image'),
-                    type_room=data.get('type_room'),
-                    status=data.get('status', StatusRoom.AVAILABLE)
-                ))
+                room_data = data.copy()
+                if 'status' not in room_data:
+                    room_data['status'] = StatusRoom.AVAILABLE
+                db.add(Room(**room_data))
             else:
                 if data.get('status'):
                     obj.status = data.get('status')
@@ -84,37 +81,64 @@ async def seed_rooms(db: AsyncSession) -> None:
 async def seed_bookings(db: AsyncSession) -> None:
     async with atomic(db):
         for data in BOOKINGS:
-            # Consultas adaptadas a exec() asíncrono
-            user_result = await db.exec(select(User).where(User.id == data['user_id']))
-            user = user_result.scalars().first()
-            
-            room_result = await db.exec(select(Room).where(Room.id == data['user_id']))
-            room = room_result.scalars().first()
+            # 1. Extraemos los valores de forma segura
+            user_id = data.get('user_id')
+            room_id = data.get('room_id')
+            check_in = data.get('check_in')
+            check_out = data.get('check_out')
 
+            # Si faltan datos vitales en este diccionario de BOOKINGS, lo saltamos silenciosamente
+            if not user_id or not room_id or not check_in:
+                continue
+
+            # 2. Buscamos el usuario
+            user_result = await db.exec(select(User).where(User.id == user_id))
+            user = user_result.first()
+            
+            # 3. Buscamos la habitación
+            room_result = await db.exec(select(Room).where(Room.id == room_id))
+            room = room_result.first()
+
+            # 4. Si ambos existen en la BD, procedemos
             if user and room:
+                # Comprobamos idempotencia: que este usuario no tenga ya una reserva en esa fecha exacta
                 exists_result = await db.exec(select(Booking).where(
                     Booking.user_id == user.id, 
-                    Booking.check_in == data['check_in']
+                    Booking.check_in == check_in
                 ))
-                exists = exists_result.scalars().first()
+                exists = exists_result.first()
                 
                 if not exists:
+                    # Instanciamos el Booking. Como tu modelo soporta rooms=[room], 
+                    # SQLModel se encargará de insertar automáticamente la fila en 'bookingroom'
                     db.add(Booking(
-                        check_in=data['check_in'],
-                        check_out=data['check_out'],
+                        check_in=check_in,
+                        check_out=check_out,
                         user_id=user.id,
-                        status=data['status'],
+                        status=data.get('status', StatusBooking.CONFIRMED.value),
                         rooms=[room] 
                     ))
 
 
-# Todos los ejecutores ahora usan "async def" y controlan la sesión asíncrona correctamente
+async def seed_supplies(db: AsyncSession) -> None:
+    async with atomic(db):
+        for data in SUPPLIES:
+            result = await db.exec(select(Supply).where(Supply.name == data['name']))
+            obj = result.first()
+
+            if not obj:
+                supply_db = Supply(**data)
+                db.add(supply_db)
+            
+
+
 async def run_all() -> None:
-    await init_db()  # init_db ya tenía run_sync internamente
+    await init_db()  
     async with AsyncSession(engine) as db:
         await seed_users(db)
         await seed_rooms(db)
         await seed_bookings(db)
+        await seed_supplies(db)
 
 async def run_users() -> None:
     async with AsyncSession(engine) as db:
@@ -127,3 +151,7 @@ async def run_rooms() -> None:
 async def run_booking() -> None:
     async with AsyncSession(engine) as db:
         await seed_bookings(db)
+
+async def run_supplies() -> None:
+    async with AsyncSession(engine) as db:
+        await seed_supplies(db)

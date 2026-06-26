@@ -1,7 +1,7 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.exceptions import RoomNotFound
-from app.models.room import Room, RoomCreate, RoomUpdate, StatusRoom
+from app.models.room import Room, RoomCreate, RoomUpdate
 from app.repository.room_repository import RoomRepository
 
 class RoomServices:
@@ -10,10 +10,13 @@ class RoomServices:
         self.room_repository = RoomRepository(db=db)
 
 
-    async def get_rooms_pending_cleaning(self) -> list[Room]:
-        return await self.room_repository.get_by_status_room(
-            status=StatusRoom.PENDING_CLEANING.value
-        )
+    async def get_rooms_not_available(self) -> list[Room]:
+        rooms = await self.room_repository.get_rooms_not_available()
+
+        if not rooms:
+            raise RoomNotFound()
+
+        return rooms
     
 
     async def createRoom(self, room: RoomCreate) -> Room:

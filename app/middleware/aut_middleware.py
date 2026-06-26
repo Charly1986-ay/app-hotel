@@ -1,11 +1,14 @@
 from fastapi import Request
-# Importamos tus excepciones personalizadas para poder atraparlas
 from app.core.exceptions import CredentialsException, ExpiredTokenException
 from app.core.security import verify_access_token
 from app.core.jinja import templates
 
 
-async def auth_middleware(request: Request, call_next):
+async def auth_middleware(request: Request, call_next):    
+    if request.scope.get("type") == "websocket" or request.url.path.startswith("/ws"):
+        return await call_next(request)
+
+    # --- El resto de tu lógica HTTP se queda exactamente igual ---
     token = request.cookies.get("access_token")    
     
     if token:

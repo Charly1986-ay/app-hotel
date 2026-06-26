@@ -17,6 +17,7 @@ from app.core.config import settings
 from app.core.db import init_db
 from app.core.tasks import check_in_job, check_out_job
 from app.middleware.aut_middleware import auth_middleware
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
@@ -57,6 +58,15 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.PROJECT_NAME,
     lifespan=lifespan,
+)
+
+# 2. AGREGA EL MIDDLEWARE DE CORS (¡Obligatorio para WebSockets entre orígenes!)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # En desarrollo puedes usar ["*"], en producción pones tu dominio
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.middleware("http")(auth_middleware)

@@ -28,9 +28,9 @@ class RoomRepository:
         )
         return result.all()
     
-    async def get_by_status_room(self, status: StatusRoom) -> list[Room]:
+    async def get_rooms_not_available(self) -> list[Room]:
         result = await self.db.exec(
-            select(Room).where(Room.status == status)
+            select(Room).where(Room.status != StatusRoom.AVAILABLE)
         )
         return result.all()
 

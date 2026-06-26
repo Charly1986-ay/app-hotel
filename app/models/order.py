@@ -38,3 +38,6 @@ class OrderResponse(SQLModel):
     created_at: date
     status: StatusOrder
     model_config = ConfigDict(from_attributes=True)
+
+class OrderWebSocket(OrderResponse):
+    pass

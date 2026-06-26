@@ -8,9 +8,10 @@ from app.core.jinja import templates
 from app.dependencies.db_deps import DBSession
 from app.models.user import TokenResponse, User, UserLogin
 from app.services import auth_services as services
+from app.services import ws_ticket_service as ticket_service
 
 from app.core.exceptions import UserNotFound, CredentialsException
-from app.dependencies.permission import get_current_user_active
+from app.dependencies.permission import get_current_user_active, manager_or_supervisor
 
 router = APIRouter()
 
@@ -79,3 +80,10 @@ async def verify_user(user: User = Depends(get_current_user_active)):
         'id': user.id,
         'role': user.role  # Enviarlo te servirá en el frontend más adelante
     }
+
+
+@router.post("/ws-ticket")
+async def get_websocket_ticket(current_user: User = manager_or_supervisor):
+    # Operación inmediata en RAM, se ejecuta directo sin 'await'
+    ticket = ticket_service.create_ticket(user_id=current_user.id)
+    return {"ticket": ticket}

@@ -9,45 +9,49 @@ class UnitsType(str, Enum):
     GRAM = 'gram'
     METRO = 'metro' 
 
-class StatusArticle(str, Enum):
+class StatusSupply(str, Enum):
     AVAILABLE = 'available'   
     UNAVAILABLE = 'unavailable'
 
-class Article(SQLModel, table=True):
-    __tablename__ = 'article'
+class Supply(SQLModel, table=True):
+    __tablename__ = 'supply'
     __table_args__ = {'extend_existing': True}
     
     id: Optional[int] = Field(default=None, primary_key=True)    
     name: str
     description: str    
     stock: int = Field(default=1, ge=0) 
+    stock_min: int = Field(default=1, ge=0)
     price: int = Field(default=0)    
     units_type: UnitsType = Field(default=UnitsType.UNITS)
-    status: StatusArticle = Field(default=StatusArticle.AVAILABLE)
+    status: StatusSupply = Field(default=StatusSupply.AVAILABLE)
 
 
-class ArticleCreate(SQLModel):
+class SupplyCreate(SQLModel):
     name: str
     description: str    
     stock: int
+    stock_min: int
     price: int
     units_type: UnitsType = UnitsType.UNITS
-    status: StatusArticle = StatusArticle.AVAILABLE
+    status: StatusSupply = StatusSupply.AVAILABLE
 
-class ArticleUpdate(SQLModel):
+class SupplyUpdate(SQLModel):
     name: Optional[str]
     description: Optional[str]
     stock: Optional[int]
+    stock_min: Optional[int]
     price: Optional[int]
     units_type: Optional[UnitsType]
-    status: Optional[StatusArticle]
+    status: Optional[StatusSupply]
 
-class ArticleResponse(SQLModel):
+class SupplyResponse(SQLModel):
     id: int
     name: str
     description: str    
     stock: int
+    stock_min: int
     price: int
     units_type: UnitsType
-    status: StatusArticle
+    status: StatusSupply
     model_config = ConfigDict(from_attributes=True)
