@@ -28,9 +28,18 @@ class RoomRepository:
         )
         return result.all()
     
+    async def get_by_status_room(self, status: StatusRoom) -> list[Room]:
+        result = await self.db.exec(
+            select(Room).where(Room.status == status)
+        )
+        return result.all()
+    
     async def get_rooms_not_available(self) -> list[Room]:
         result = await self.db.exec(
-            select(Room).where(Room.status != StatusRoom.AVAILABLE)
+            select(Room).where(
+                (Room.status == StatusRoom.PENDING_CLEANING) | 
+                (Room.status == StatusRoom.MAINTENANCE)
+            )
         )
         return result.all()
 
@@ -44,7 +53,5 @@ class RoomRepository:
         for key, value in updates.items():
             setattr(room, key, value)
 
-        self.db.add(room)
-        await self.db.commit()
-        await self.db.refresh(room)
+        self.db.add(room)        
         return room

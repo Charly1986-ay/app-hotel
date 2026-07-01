@@ -29,21 +29,21 @@ async def lifespan(app: FastAPI):
     # 2. Usamos AsyncIOScheduler para que se lleve bien con el entorno async
     scheduler = AsyncIOScheduler(timezone="America/Argentina/Buenos_Aires")
     
-    # tarea 1 => check-out JOB (13.00hs)
+    # tarea 1 => check-out JOB (11.21hs)
     scheduler.add_job(
         check_out_job,
         trigger='cron',
-        hour=13,
-        minute=0,
+        hour=11,
+        minute=33,
         id="checkout_daily",
         replace_existing=True
     )
-    # tarea 2 => check-IN JOB (15.00hs)
+    # tarea 2 => check-IN JOB (11.24hs)
     scheduler.add_job(
         check_in_job,
         trigger='cron',
-        hour=15,
-        minute=0,
+        hour=11,
+        minute=36,
         id="checkin_daily",
         replace_existing=True
     )

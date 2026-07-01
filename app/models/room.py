@@ -78,5 +78,5 @@ class RoomAdminTable(SQLModel):
     status: StatusRoom
 
 
-class RoomListNotAvailable(SQLModel):
-    rooms_not_available: list[RoomAdminTable]
+class RoomList(SQLModel):
+    rooms_list: list[RoomAdminTable]

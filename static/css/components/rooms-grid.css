@@ -1,0 +1,209 @@
+/* ==========================================================================
+   UI COMPONENT: ROOMS GRID (REFINED & SOFT CURVES)
+   ========================================================================== */
+
+/* The section wrapper now handles external breathing space */
+.rooms-section {
+    width: 100%;
+    max-width: 1100px; /* Slightly wider to let 4 columns breathe */
+    margin: 2rem auto;
+    padding: 1.5rem;   /* Generous external safety padding against screen edges */
+}
+
+/* Container for the 16 rooms */
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;       /* Increased external separation between cards */
+    width: 100%;
+    padding: 1rem 0;   /* Vertical separation from the tab menu or titles */
+}
+
+/* Base Card Style */
+.room-card {
+    background-color: var(--bg-pure, #ffffff);
+    
+    /* 🌟 SUAVE Y MODERNO: Garantiza esquinas curvas usando tu token o un fallback de 12px */
+    border-radius: var(--room-radius, 12px);
+    
+    /* Refined Internal Separation:
+       More space on top/bottom (2.5rem) than sides (1.2rem) 
+       gives the card a much more elegant, vertical rectangular look.
+    */
+    padding: 2.5rem 1.2rem; 
+    
+    text-align: center;
+    color: var(--text-title, #2c3e50);
+    
+    /* Flexbox layout to center all elements inside neatly */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    /* Soft premium shadow leveraging your architectural standard */
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-shadow, #000) 40%, transparent);
+    
+    transition: var(--transition-fast, all 0.2s ease);
+    cursor: pointer;
+    user-select: none;
+    
+    /* Subtle border matching your form styles to anchor the card when it's flat */
+    border: 1px solid color-mix(in srgb, var(--input-border, #ccc) 50%, transparent);
+}
+
+/* Hover Effect leveraging your fast transition and brand colors */
+.room-card:hover {
+    transform: translateY(-5px); /* Lift effect */
+    
+    /* Deepens the shadow warmth on hover */
+    box-shadow: 0 10px 20px color-mix(in srgb, var(--color-shadow, #000) 80%, transparent);
+    
+    /* Subtle glowing border using your brand's primary hover color */
+    border-color: color-mix(in srgb, var(--primary-hover, #3498db) 30%, transparent);
+}
+
+/* Forzar que el número resalte más en la jerarquía */
+.room-card-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* Tipo de habitación (Estándar, Suite, etc.) */
+.room-card-type {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    font-weight: 300;
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Subtitle for the status text */
+.room-status-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;   /* Slightly bolder for semantic readability */
+    margin-top: 0.8rem; /* Separation between type/number and status text */
+    text-transform: uppercase; /* Gives it a cleaner, modern utility look */
+    letter-spacing: 1px;
+}
+
+/* 🎨 ROOM STATUS MODIFIER CLASSES (CORREGIDO) */
+
+/* 1. Disponible: Fondo Marfil + Texto Verde */
+.room-card.available {
+    background-color: var(--room-available-bg);
+    color: var(--room-available-text);
+    border-color: color-mix(in srgb, var(--room-available-text) 25%, transparent);
+}
+.room-card.available .room-status-label {
+    color: var(--room-available-text);
+}
+
+/* 2. Ocupada: Fondo Gris Oscuro/Cuerpo + Texto Atenuado (Inactiva visualmente) */
+.room-card.occupied {
+    background-color: var(--room-occupied-bg);
+    color: var(--room-occupied-text);
+    border-color: color-mix(in srgb, var(--room-occupied-text) 15%, transparent);
+    box-shadow: none; /* Quitamos sombra para dar efecto de "bloqueado/apagado" */
+    opacity: 0.8;
+}
+.room-card.occupied .room-status-label {
+    color: var(--room-occupied-text);
+}
+
+/* 3. Limpieza Pendiente: Fondo Blanco Puro + Bordes e Indicadores en Rojo Alerta */
+.room-card.pending-cleaning {
+    background-color: var(--room-cleaning-bg);
+    color: var(--room-cleaning-text);
+    /* Un borde rojo sutil pero firme rodeando la tarjeta */
+    border: 1.5px solid color-mix(in srgb, var(--room-cleaning-text) 30%, transparent);
+    /* Sombra rojiza muy elegante */
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--room-cleaning-text) 10%, transparent);
+}
+.room-card.pending-cleaning .room-status-label {
+    color: var(--room-cleaning-text);
+}
+
+/* 4. Mantenimiento: Fondo Marfil + Texto y Bordes en tu Color Secundario */
+.room-card.maintenance {
+    background-color: var(--room-maintenance-bg);
+    color: var(--room-maintenance-text);
+    border-color: color-mix(in srgb, var(--room-maintenance-text) 40%, transparent);
+}
+.room-card.maintenance .room-status-label {
+    color: var(--room-maintenance-text);
+}
+
+/* Barra de acciones interna */
+.rooms-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+/* Botoncitos de estados internos */
+.status-filters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.status-filters .status-btn {
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--input-border, #ccc) 50%, transparent);
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 20px; /* Estilo píldora moderno */
+    cursor: pointer;
+    color: var(--text-main, #555);
+    transition: var(--transition-fast, all 0.2s);
+}
+
+.status-filters .status-btn.is-active,
+.status-filters .status-btn:hover {
+    background-color: var(--primary-color, #3498db);
+    color: #ffffff;
+    border-color: var(--primary-color, #3498db);
+}
+
+/* El botón Añadir con FontAwesome */
+#addRoomBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: var(--room-radius, 12px);
+}
+
+.tabs-menu .tab-btn i {
+    margin-right: 0.5rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .rooms-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .rooms-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .room-card {
+        padding: 2rem 1rem; /* Slightly tighter internal space on mobile */
+    }
+}

@@ -1,0 +1,64 @@
+/* ==========================================================================
+   COMPONENTE GENÉRICO: TABS (CON SEPARACIÓN OPTIMIZADA)
+   ========================================================================== */
+
+/* Contenedor padre: ahora le damos un margen de respiración global */
+.tabs-wrapper {
+    width: 100%;
+    padding: 1.5rem 2rem; /* Separa todo el módulo de los bordes de la pantalla (.container) */
+    margin-top: 1rem;     /* Separa las pestañas del título H1 superior */
+}
+
+/* El menú que contiene los botones */
+.tabs-menu {
+    display: flex;
+    gap: 0.75rem; /* Un poco más de separación entre botón y botón */
+    border-bottom: 2px solid var(--input-border);
+    margin-bottom: 2rem; /* Aumentamos a 2rem para que la grilla de abajo no quede pegada a la línea */
+    padding-left: 0.5rem; /* Pequeño espacio para que la primera pestaña no toque el borde izquierdo absoluto */
+}
+
+/* Botón de la pestaña */
+.tab-btn {
+    padding: 0.85rem 1.75rem; /* Incrementamos ligeramente el tamaño del botón para que respire por dentro */
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: 2px solid transparent;
+    border-bottom: none;
+    border-radius: var(--radius-main) var(--radius-main) 0 0;
+    margin-bottom: -2px; /* Superposición con el borde inferior */
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+/* Hover genérico */
+.tab-btn:hover {
+    color: var(--primary-hover);
+    background-color: var(--bg-sidebar);
+}
+
+/* Estado Activo genérico */
+.tab-btn.is-active {
+    color: var(--primary-color);
+    background-color: var(--bg-pure);
+    border-color: var(--input-border) var(--input-border) var(--bg-pure) var(--input-border);
+    border-top: 3px solid var(--secondary-color);
+}
+
+/* Contenedores de contenido */
+.tab-panel {
+    display: none; /* Oculto por defecto */
+}
+
+/* Panel Activo */
+.tab-panel.is-active {
+    display: block;
+    animation: tabFadeIn 0.3s ease-in-out;
+}
+
+/* Animación sutil */
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+}

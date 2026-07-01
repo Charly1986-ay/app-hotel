@@ -1,70 +1,57 @@
 {% extends "base-admin.html" %}
 
-{% block title %}Supervisor - Control de Habitaciones{% endblock %}
+{% block title %}Módulo de Supervisión{% endblock %}
 
-{% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', path='css/components/table-room.css') }}">
-{% endblock %}
+{% block css %} {% endblock %}
 
 {% block content %}
-<div class="dashboard-header" style="margin-bottom: 2rem;">
-    <h1 style="color: var(--text-title);">Monitoreo de Habitabilidad</h1>
+<div class="tabs-wrapper">
+
+    <div class="tabs-menu">
+        <button class="tab-btn is-active" data-target="#tab-rooms">
+            <i class="fas fa-bed"></i> Rooms Layout
+        </button>
+        <button class="tab-btn" data-target="#tab-orders">
+            <i class="fas fa-receipt"></i> Orders
+        </button>
+    </div>
+
+    <div class="tabs-content">
+        
+        <div id="tab-rooms" class="tab-panel is-active">
+            
+            <div class="rooms-actions-bar">
+                <div class="status-filters">
+                    <button class="status-btn is-active" data-status="all">Todas</button>
+                    <button class="status-btn" data-status="available">Disponibles</button>
+                    <button class="status-btn" data-status="pending_cleaning">Limpieza</button>
+                    <button class="status-btn" data-status="maintenance">Mantenimiento</button>
+                </div>
+
+                <button id="addRoomBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Añadir Habitación
+                </button>
+            </div>
+
+            <div class="rooms-grid" id="roomsGridContainer"></div>
+        </div>
+
+        <div id="tab-orders" class="tab-panel">
+            <div class="orders-placeholder">
+                <h2>Órdenes de Pedidos</h2>
+                <p>Módulo de gestión de insumos y pedidos en desarrollo.</p>
+            </div>
+        </div>
+        
+    </div>
+
 </div>
 
-<main class="main-content">
-    
-    <div class="table-header">
-        <h2>Monitoreo de Habitaciones</h2>
-        <p>Actualizaciones en tiempo real desde el sistema de reservas</p>
-    </div>
-    
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Camas</th>
-                <th>Capacidad Máx.</th>
-                <th>Precio / Noche</th>
-                <th>Estado Actual</th>
-            </tr>
-        </thead>
-        <tbody id="rooms-table-body">
-            <tr>
-                <td colspan="6" class="loading-text">Conectando al flujo de datos en tiempo real...</td>
-            </tr>
-        </tbody>
-    </table>
-
-</main>
-
 {% include "components/modal-supplies.html" %}
+{% include "components/modal-room.html" %}
+
 {% endblock %}
 
-
 {% block extra_js %}
-<script type="module" src="{{ url_for('static', path='js/components/tableRoom.js') }}"></script>
-
-<script>
-    // 🧠 La lógica específica de esta página que escucha al cascarón
-    function handleHotelEvent(message) {
-        switch (message.event) {
-            case "room_changed":
-                // Lógica para pintar de dorado/verde la tarjeta usando tus estilos
-                updateRoomUI(message.data);
-                break;
-            case "order_status_updated":
-                alert(`Pedido de la habitación ${message.data.room_id} fue: ${message.data.status}`);
-                break;
-        }
-    }
-
-    function updateRoomUI(data) {
-        // Manipulación del DOM para cambiar las clases de tus tarjetas en tiempo real
-        const roomCard = document.querySelector(`[data-id="${data.id}"]`);
-        if (roomCard) {
-            roomCard.className = `room-card status-${data.status}`;
-        }
-    }
-</script>
+<script type="module" src="{{ url_for('static', path='js/pages/supervisor-dashboard.js') }}"></script>
 {% endblock %}

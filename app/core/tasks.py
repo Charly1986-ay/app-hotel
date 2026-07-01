@@ -14,6 +14,6 @@ async def check_in_job():
     async with AsyncSessionLocal() as db:
         print('[JOB-CHECK IN] comienza la rutina PROGRAMADA...!!!')        
         
-        await tasks.check_out(db=db, check_out=date.today())
+        await tasks.check_in(db=db, check_in=date.today())
         
         print('Ha finalizado la rutina...!!!')

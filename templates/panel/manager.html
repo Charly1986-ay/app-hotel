@@ -1,17 +1,31 @@
-{% extends "base.html" %}
+{% extends "base-admin.html" %}
 
-{% block module_name %}Panel de Gerencia{% endblock %}
+{% block title %}Módulo Manager{% endblock %}
 
-{% block sidebar_menu %}
-    <a href="#" class="active"><span class="material-symbols-outlined">analytics</span> Reportes y KPIs</a>
-    <a href="#"><span class="material-symbols-outlined">order_approve</span> Aprobaciones</a>
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/components/tab.css') }}">
 {% endblock %}
 
 {% block content %}
-    <div class="cards-grid" id="kpi-container">
-        </div>
-{% endblock %}
+<div class="tabs-wrapper">
 
-{% block scripts %}
-    <script type="module" src="/js/pages/manager.js"></script>
+    <div class="tabs-menu">
+        <button class="tab-btn is-active" data-target="#tab-orders">Pedidos</button>
+        <button class="tab-btn" data-target="#tab-reports">Reportes</button>
+    </div>
+
+    <div class="tabs-content">
+        <div id="tab-orders" class="tab-panel">
+            <h2>Órdenes de Pedidos</h2>
+        </div>
+
+        <div id="tab-reports" class="tab-panel is-active">
+            <h2>Reportes Financieros</h2>
+        </div>
+    </div>
+
+</div>
+
+{% block extra_js %}
+<!-- <script type="module" src="{{ url_for('static', path='js/components/TableRoomNotAvailable.js') }}"></script> -->
 {% endblock %}

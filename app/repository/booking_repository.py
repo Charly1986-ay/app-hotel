@@ -2,7 +2,7 @@ from datetime import date
 from sqlmodel import col, select
 # 1. Cambiamos el tipo de sesión al módulo de extensión asíncrona de SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
-
+from sqlalchemy.orm import selectinload
 from app.models.booking import Booking, BookingCreate, BookingRoom
 from app.models.payment import Payment
 from app.models.room import Room
@@ -17,13 +17,19 @@ class BookingRepository:
     
     async def get_check_in(self, check_in: date) -> list[Booking] | None:
         result = await self.db.exec(
-            select(Booking).where(Booking.check_in == check_in)
+            select(Booking)
+            .where(Booking.check_in == check_in)
+            # Precarga las habitaciones de forma asíncrona para evitar el error de greenlet
+            .options(selectinload(Booking.rooms))
         )
         return result.all()
 
     async def get_check_out(self, check_out: date) -> list[Booking] | None:
         result = await self.db.exec(
-            select(Booking).where(Booking.check_out == check_out)
+            select(Booking)
+            .where(Booking.check_out == check_out)
+            # Esto precarga las habitaciones de forma asíncrona en la misma transacción
+            .options(selectinload(Booking.rooms)) 
         )
         return result.all()
 

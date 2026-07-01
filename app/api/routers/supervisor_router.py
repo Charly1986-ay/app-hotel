@@ -1,10 +1,10 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Form, HTTPException, status, Request
+from fastapi import APIRouter, Form, HTTPException, Query, status, Request
 from app.core.exceptions import RoomNotFound
 from app.core.jinja import templates
 from app.dependencies.db_deps import DBSession
-from app.models.room import RoomListNotAvailable, RoomResponse, RoomUpdate, StatusRoom, TypeRoom
+from app.models.room import RoomList, RoomResponse, RoomUpdate, StatusRoom, TypeRoom
 from app.models.user import User
 from app.dependencies.permission import supervisor_dependency
 from app.services.room_services import RoomServices
@@ -102,22 +102,23 @@ async def update_room_details(
     return response_data
 
 
-@router.get("/rooms/not-available", response_model=RoomListNotAvailable)
-async def get_rooms_not_available(
+@router.get("/rooms/list", response_model=RoomList)
+async def get_rooms_by_type(
     request: Request,
     db: DBSession,     
+    q: Annotated[str, Query(description="Estado de la habitación o 'all'")] = "all", # Valor por defecto
     current_user = supervisor_dependency
 ):   
-    
     try:
         room_services = RoomServices(db=db)
-        rooms_db = await room_services.get_rooms_not_available()
+        rooms_db = await room_services.get_status_room(status_room=q)
 
         return {
-            'rooms_not_available': rooms_db
+            'rooms_list': rooms_db
         }        
             
     except RoomNotFound:        
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No se encontraron habitaciones con el criterio especificado."
         )

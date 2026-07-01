@@ -1,13 +1,18 @@
 :root {
     /* --- CAPA 0: FONDOS BASE --- */
-    --bg-main: #F9F7F2;          /* Marfil base de la web */
-    --bg-pure: #FFFFFF;          /* Blanco absoluto para tarjetas y posts */
-    --bg-sidebar: #F2EFE9;       /* Un marfil sutilmente más oscuro para contraste */
+    --bg-main: #F9F7F2;
+    /* Marfil base de la web */
+    --bg-pure: #FFFFFF;
+    /* Blanco absoluto para tarjetas y posts */
+    --bg-sidebar: #F2EFE9;
+    /* Un marfil sutilmente más oscuro para contraste */
 
     /* --- CAPA 1: COLORES DE MARCA --- */
-    --primary-color: #660000;    /* Vino Institucional */
-    --primary-hover: #931212; 
-    --secondary-color: #b8921f;  /* Dorado/Ocre para acentos */
+    --primary-color: #660000;
+    /* Vino Institucional */
+    --primary-hover: #931212;
+    --secondary-color: #b8921f;
+    /* Dorado/Ocre para acentos */
 
     /* --- CAPA 2: COMPONENTES DE NAVEGACIÓN --- */
     --nav-bg: var(--primary-color);
@@ -17,48 +22,80 @@
     --toggle-menu-text: var(--bg-main);
 
     /* --- CAPA 3: BOTONES --- */
-    --btn-bg: var(--primary-color);    
+    --btn-bg: var(--primary-color);
     --btn-text: var(--bg-main);
     --btn-hover-bg: var(--primary-hover);
-    
+
     /* Botón Secundario/Bordeado */
-    --btn-primary-border: var(--secondary-color);    
-    --btn-primary-text: var(--secondary-color);  
-    --btn-primary-text-hover: var(--bg-pure);    
+    --btn-primary-border: var(--secondary-color);
+    --btn-primary-text: var(--secondary-color);
+    --btn-primary-text-hover: var(--bg-pure);
 
     /* --- CAPA 4: TIPOGRAFÍA --- */
-    --text-title: #2A241F;       /* Café oscuro elegante */
-    --text-body: #4A4540;        /* Gris cálido para lectura */
-    --text-muted: #857F7A;       /* Textos secundarios */
-    
+    --text-title: #2A241F;
+    /* Café oscuro elegante */
+    --text-body: #4A4540;
+    /* Gris cálido para lectura */
+    --text-muted: #857F7A;
+    /* Textos secundarios */
+
     /* --- CAPA 5: FORMULARIOS --- */
     --input-text: var(--text-body);
     --input-label: var(--text-title);
     --input-placeholder: #A6A09B;
-    --input-border: rgba(112, 23, 5, 0.2); 
-    --input-bg: var(--bg-pure);  /* Los inputs deben ser blancos para resaltar */
+    --input-border: rgba(112, 23, 5, 0.2);
+    --input-bg: var(--bg-pure);
+    /* Los inputs deben ser blancos para resaltar */
 
     /* Mapeo directo a tus variables oficiales */
     --spin-border: var(--input-border);
     --spin-bg: var(--bg-pure);
     --spin-text: var(--text-title);
-    --spin-btn-bg: transparent;    
+    --spin-btn-bg: transparent;
     --spin-focus-border: var(--primary-color);
     --spin-focus-ring: color-mix(in srgb, var(--primary-color) 15%, transparent);
 
     /* --- CAPA 6: FOOTER --- */
-    --footer-bg: var(--primary-color);   /* Fondo Vino para cerrar con fuerza */
-    --footer-text: var(--bg-main);       /* Texto Marfil para legibilidad */
-    --footer-accent: var(--secondary-color); /* Acentos en Dorado */
-    --footer-muted: var(--text-muted); /* Marfil con transparencia para copyright */
+    --footer-bg: var(--primary-color);
+    /* Fondo Vino para cerrar con fuerza */
+    --footer-text: var(--bg-main);
+    /* Texto Marfil para legibilidad */
+    --footer-accent: var(--secondary-color);
+    /* Acentos en Dorado */
+    --footer-muted: var(--text-muted);
+    /* Marfil con transparencia para copyright */
 
     /* El café elegante suavizado para usarlo como sombra */
     --color-shadow: var(--bg-sidebar);
 
     /* ESTRUCTURA (Factorización de formas) */
-    --radius-main: 5px;        /* El valor que usabas en botones y formularios */
-    --border-width: 2px;        /* El grosor que usabas en tus botones */
-    
+    --radius-main: 5px;
+    /* El valor que usabas en botones y formularios */
+    --border-width: 2px;
+    /* El grosor que usabas en tus botones */
+
     /* ANIMACIONES (Factorización de tiempos) */
-    --transition-fast: all 0.3s ease; /* El estándar que definiste en tus botones */
+    --transition-fast: all 0.3s ease;
+    /* El estándar que definiste en tus botones */
+
+    /* 🎨 PALETA SEMÁNTICA DE ESTADOS DE HABITACIÓN */
+    --room-available-bg: var(--bg-sidebar);
+    /* Tu marfil/crema de fondo */
+    --room-available-text: #1e877e;
+    /* Verde Esmeralda */
+
+    --room-occupied-bg: var(--bg-main);
+    /* Tu gris de fondo principal */
+    --room-occupied-text: var(--text-muted);
+    /* Tu texto gris suave */
+
+    --room-cleaning-bg: var(--bg-pure, #ffffff);
+    /* Blanco puro para que resalte el texto rojo */
+    --room-cleaning-text: #b81d24;
+    /* Rojo Alerta */
+
+    --room-maintenance-bg: var(--bg-sidebar);
+    /* Volvemos al marfil cálido */
+    --room-maintenance-text: var(--secondary-color);
+    /* Tu color secundario dorado/amarillo */
 }

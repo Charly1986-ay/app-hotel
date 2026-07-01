@@ -20,35 +20,40 @@ ROOMS = [
         'max_capacity': 2,
         'price': 36,
         'image': 'executive_bed_2_1.jpg',
-        'type_room': 'executive'
+        'type_room': 'executive',
+        'status': 'occupied'
     },
     {
         'bed_count': 2,
         'max_capacity': 2,
         'price': 36,
         'image': 'executive_bed_2_2.jpg',
-        'type_room': 'executive'
+        'type_room': 'executive',
+        'status': 'occupied'
     },
     {
         'bed_count': 2,
         'max_capacity': 2,
         'price': 15,
         'image': 'standar_bed_2.jpg',
-        'type_room': 'standard'
+        'type_room': 'standard',
+        'status': 'available'
     },
     {
         'bed_count': 2,
         'max_capacity': 2,
         'price': 10,
         'image': 'standar_bed_2_1.jpg',
-        'type_room': 'standard'
+        'type_room': 'standard',
+        'status': 'available'
     },
     {
         'bed_count': 2,
         'max_capacity': 2,
         'price': 10,
         'image': 'standar_bed_2_2.jpg',
-        'type_room': 'standard'
+        'type_room': 'standard',
+        'status': 'available'
     },    
     {
         'bed_count': 3,
@@ -104,6 +109,7 @@ ROOMS = [
         'max_capacity': 5,
         'price': 66,
         'image': 'suite_familiar_4.jpg',
-        'type_room': 'suite'
+        'type_room': 'suite',
+        'status': 'maintenance'
     },
 ]

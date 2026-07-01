@@ -7,36 +7,32 @@ from app.repository.room_repository import RoomRepository
 from app.repository.booking_repository import BookingRepository
 
 
-# 1. Convertimos la función a asíncrona y tipamos con AsyncSession
 async def check_out(db: AsyncSession, check_out: date) -> None:    
     try:
         repoBooking = BookingRepository(db=db)
-        
-        # 2. Agregamos await (asumiendo que tus repositorios serán asíncronos)
         bookings = await repoBooking.get_check_out(check_out=check_out)
         
         if bookings:
             repoRoom = RoomRepository(db=db)
             for booking in bookings:
                 for room in booking.rooms:
-                    if room.status == StatusRoom.OCCUPIED:
-                        roomUpdate = RoomUpdate(status=StatusRoom.PENDING_CLEANING)
+                    if room.status == StatusRoom.OCCUPIED.value:
+                        roomUpdate = RoomUpdate(status=StatusRoom.PENDING_CLEANING.value)
                         
-                        # 3. Agregamos await en la actualización
+                        # Esto solo actualiza el objeto en memoria y lo añade a la sesión
                         await repoRoom.update(room=room, updates=roomUpdate.model_dump(exclude_unset=True))
-                        print(f'Habitación {room.id} enviada a limpieza.')
+                        print(f'Habitación {room.id} lista para impactar en BD.')
             
-            # 4. El commit ahora es asíncrono
+            # Al salir de TODOS los bucles, guardamos todo junto de forma segura
             await db.commit()
+            print("¡Todas las habitaciones se actualizaron con éxito!")
         else:
-            print('no hay reservas')
+            print('No hay reservas')
     except Exception as e:
         print(f"Error en el job OUT: {e}")
-        # 5. El rollback también es asíncrono
         await db.rollback()    
 
 
-# 1. Convertimos a asíncrona y tipamos con AsyncSession
 async def check_in(db: AsyncSession, check_in: date) -> None:
     try:
         repoBooking = BookingRepository(db=db)
@@ -48,8 +44,8 @@ async def check_in(db: AsyncSession, check_in: date) -> None:
             repoRoom = RoomRepository(db=db)
             for booking in bookings:
                 for room in booking.rooms:
-                    if room.status == StatusRoom.AVAILABLE:
-                        roomUpdate = RoomUpdate(status=StatusRoom.OCCUPIED)
+                    if room.status == StatusRoom.AVAILABLE.value:
+                        roomUpdate = RoomUpdate(status=StatusRoom.OCCUPIED.value)
                         
                         # 3. Agregamos await
                         await repoRoom.update(room=room, updates=roomUpdate.model_dump(exclude_unset=True))
